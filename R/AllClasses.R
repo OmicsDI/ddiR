@@ -34,11 +34,11 @@ setClass("DatasetSummary",
       return("'dataset.id' must be a single valid string")
 
     # check project.accession
-    if (!is.character(object@)database || nchar(object@database) == 0 || is.na(object@database))
+    if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
       return("'database' must be a single valid string")
 
     # check file.size
-    if (!is.numeric(object@visit.count) || object@visit.count < 0 ||is.na(object@visit.count))
+    if (!is.numeric(object@visit.count) || object@visit.count < 0 || is.na(object@visit.count))
       return("'visit.count' must be a none negative number")
 
     return(TRUE)

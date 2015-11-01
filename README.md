@@ -84,5 +84,5 @@ Some things to be done, sooner than later:
 ### About us   
 
 Find out about us in our GitHub profiles:  
-[Jose A. Dianes](https://github.com/ypriverol)  
+[Yasset Perez-Riverol](https://github.com/ypriverol)  
 
