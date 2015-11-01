@@ -1,15 +1,14 @@
-pride_archive_url <- "http://www.ebi.ac.uk/pride/ws/archive"
-pride_archive_url_dev <- "http://wwwdev.ebi.ac.uk/pride/ws/archive"
+ddi_url <- "http://www.ebi.ac.uk/Tools/ddi/ws/"
+ddi_dev <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws/"
 
 MISSING_VALUE <- "Not available"
 
-#' ProjectSummaryList represents a PRIDE Archive project collection
+#' Datataset represents an OmicsDI DataSet
 #'
 #' @importFrom rjson fromJSON
-#' @export 
+#' @export
 #' @exportClass ProjectSummaryList
-setClass(
-    "ProjectSummaryList", 
+setClass("Dataset",
     representation(
         query = "character",
         project.list = "list",
@@ -18,7 +17,7 @@ setClass(
     ),
     prototype(
         query = "",
-        project.list = list(), 
+        project.list = list(),
         page.number = 0,
         page.size = 10
     )
@@ -37,7 +36,7 @@ setMethod("show",
 )
 
 #' Returns the query term used to retrieve the ProjectSummaryList
-#' 
+#'
 #' @param object a ProjectSummaryList instance
 #' @return the query term used to retrieve this ProjectSummaryList
 #' @author Jose A. Dianes
@@ -45,7 +44,7 @@ setMethod("show",
 setMethod("query", "ProjectSummaryList", function(object) object@query)
 
 #' Returns a project summary page as a list
-#' 
+#'
 #' @param object a ProjectSummaryList instance
 #' @return the protein list
 #' @author Jose A. Dianes
@@ -53,17 +52,17 @@ setMethod("query", "ProjectSummaryList", function(object) object@query)
 setMethod("project.list", "ProjectSummaryList", function(object) object@project.list)
 
 #' Returns the page number for a given protein details list
-#' 
+#'
 #' @param object a ProjectSummaryList instance
-#' @return the page number 
+#' @return the page number
 #' @author Jose A. Dianes
 #' @export
 setMethod("page.number", "ProjectSummaryList", function(object) object@page.number)
 
 #' Returns the page size for a given protein details list
-#' 
+#'
 #' @param object a ProjectSummaryList instance
-#' @return the page size 
+#' @return the page size
 #' @author Jose A. Dianes
 #' @export
 setMethod("page.size", "ProjectSummaryList", function(object) object@page.size)
@@ -81,7 +80,7 @@ setMethod("as.data.frame", "ProjectSummaryList",
           function(object, row.names=NULL, optional=FALSE, ...)
           {
               value <- list.to.data.frame(object@project.list)
-              
+
               return(value)
           }
 )
@@ -89,13 +88,13 @@ setMethod("as.data.frame", "ProjectSummaryList",
 #' ProjectSummary represents a PRIDE Archive project dataset
 #'
 #' @importFrom rjson fromJSON
-#' @export 
+#' @export
 #' @exportClass ProjectSummary
 setClass(
-    "ProjectSummary", 
-    
+    "ProjectSummary",
+
     slots = c(
-              accession = "character", 
+              accession = "character",
               project.title = "character",
               project.description = "character",
               publication.date = "POSIXct",
@@ -107,7 +106,7 @@ setClass(
               project.tags = "character",
               submission.type = "character"
             ),
-    
+
     prototype = list(
                   project.title = MISSING_VALUE,
                   project.description = MISSING_VALUE,
@@ -123,44 +122,44 @@ setClass(
     validity = function(object) {
       # check accession
       if (!is.character(object@accession) || nchar(object@accession) == 0 || is.na(object@accession))
-        return("'accession' must be a single valid string")  
-      
+        return("'accession' must be a single valid string")
+
       # check project.title
       if (!is.character(object@project.title) || nchar(object@project.title) == 0 || is.na(object@project.title))
-        return("'project.title' must be a single valid string")  
-      
+        return("'project.title' must be a single valid string")
+
       # check project.description
       if (!is.character(object@project.description) || nchar(object@project.description) == 0 || is.na(object@project.description))
-        return("'project description' must be a single valid string")  
-      
+        return("'project description' must be a single valid string")
+
       # check publication.date
       if (!is(object@publication.date, "POSIXct") || is.na(object@publication.date))
-        return("'publication.date' must be a single valid date")  
-      
+        return("'publication.date' must be a single valid date")
+
       # check num.assays
       if (!is.numeric(object@num.assays) || object@num.assays < 0 || is.na(object@num.assays))
-        return("'num.assays' must be a none negative integer")  
-      
+        return("'num.assays' must be a none negative integer")
+
       # check species
       if (!is.character(object@species) || 0 %in% nchar(object@species) || is.na(object@species))
-        return("'species' must be a one or multiple valid strings")  
-      
+        return("'species' must be a one or multiple valid strings")
+
       # check tissues
       if (!is.character(object@tissues) || 0 %in% nchar(object@tissues) || is.na(object@tissues))
-        return("'tissues' must be a one or multiple valid strings")  
-      
+        return("'tissues' must be a one or multiple valid strings")
+
       # check ptm.names
       if (!is.character(object@ptm.names) || 0 %in% nchar(object@ptm.names) || is.na(object@ptm.names))
         return("'ptm.names' must be a one or multiple valid strings")
-      
+
       # check instrument.names
       if (!is.character(object@instrument.names) || 0 %in% nchar(object@instrument.names) || is.na(object@instrument.names))
         return("'instrument.names' must be a one or multiple valid strings")
-      
+
       # check project.tags
       if (!is.character(object@project.tags) || 0 %in% nchar(object@project.tags) || is.na(object@project.tags))
         return("'project.tags' must be a one or multiple valid strings")
-      
+
       # check submission.type
       if (!is.character(object@submission.type) || nchar(object@submission.type) == 0 || is.na(object@submission.type))
         return("'submission.type' must be a single valid string")
@@ -168,7 +167,7 @@ setClass(
 )
 
 #' Constructor for ProjectSummary
-#' 
+#'
 #' @param accession project accession
 #' @param project.title the title of the project
 #' @param project.description the description of the project
@@ -180,19 +179,19 @@ setClass(
 #' @param instrument.names the names of the instruments used in the project
 #' @param project.tags the tags for the project
 #' @param submission.type the type of the submission, e.g. COMPLETE, PARTIAL or PRIDE
-#' @export 
-ProjectSummary <- function(accession, 
-                           project.title, 
-                           project.description, 
-                           publication.date, 
-                           num.assays, 
+#' @export
+ProjectSummary <- function(accession,
+                           project.title,
+                           project.description,
+                           publication.date,
+                           num.assays,
                            species,
                            tissues,
                            ptm.names,
                            instrument.names,
                            project.tags,
                            submission.type) {
-  new("ProjectSummary", 
+  new("ProjectSummary",
       accession = accession,
       project.title = project.title,
       project.description = project.description,
@@ -208,9 +207,9 @@ ProjectSummary <- function(accession,
 }
 
 #' Show the print-out version of the content in a ProjectSummary
-#' 
+#'
 #' @param object a given ProjectSummary
-#' @export 
+#' @export
 setMethod("show",
           signature = "ProjectSummary",
           definition = function(object) {
@@ -230,7 +229,7 @@ setMethod("show",
 )
 
 #' Returns a project accession
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the accession
 #' @author Jose A. Dianes
@@ -238,7 +237,7 @@ setMethod("show",
 setMethod("accession", "ProjectSummary", function(object) object@accession)
 
 #' Replaces a project accession
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the accession
 #' @author Jose A. Dianes
@@ -252,7 +251,7 @@ setReplaceMethod("accession", "ProjectSummary",
 )
 
 #' Returns a project title
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project title
 #' @author Jose A. Dianes
@@ -260,7 +259,7 @@ setReplaceMethod("accession", "ProjectSummary",
 setMethod("project.title", "ProjectSummary", function(object) object@project.title)
 
 #' Replaces a project title
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the title
 #' @author Jose A. Dianes
@@ -274,7 +273,7 @@ setReplaceMethod("project.title", "ProjectSummary",
 )
 
 #' Returns a project description
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project description
 #' @author Jose A. Dianes
@@ -282,7 +281,7 @@ setReplaceMethod("project.title", "ProjectSummary",
 setMethod("project.description", "ProjectSummary", function(object) object@project.description)
 
 #' Replaces a project description
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the project description
 #' @author Jose A. Dianes
@@ -296,7 +295,7 @@ setReplaceMethod("project.description", "ProjectSummary",
 )
 
 #' Returns a project publication date
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project publication date
 #' @author Jose A. Dianes
@@ -304,7 +303,7 @@ setReplaceMethod("project.description", "ProjectSummary",
 setMethod("publication.date", "ProjectSummary", function(object) object@publication.date)
 
 #' Replaces a project publication date
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the publication date
 #' @author Jose A. Dianes
@@ -318,7 +317,7 @@ setReplaceMethod("publication.date", "ProjectSummary",
 )
 
 #' Returns a project number of assays
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the number of assays
 #' @author Jose A. Dianes
@@ -326,7 +325,7 @@ setReplaceMethod("publication.date", "ProjectSummary",
 setMethod("num.assays", "ProjectSummary", function(object) object@num.assays)
 
 #' Replaces a project number of assays
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the number of assays
 #' @author Jose A. Dianes
@@ -340,7 +339,7 @@ setReplaceMethod("num.assays", "ProjectSummary",
 )
 
 #' Returns a project species
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project species
 #' @author Jose A. Dianes
@@ -348,7 +347,7 @@ setReplaceMethod("num.assays", "ProjectSummary",
 setMethod("species", "ProjectSummary", function(object) object@species)
 
 #' Replaces the project species
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the species
 #' @author Jose A. Dianes
@@ -362,7 +361,7 @@ setReplaceMethod("species", "ProjectSummary",
 )
 
 #' Returns a project tissues
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project tissues
 #' @author Jose A. Dianes
@@ -370,7 +369,7 @@ setReplaceMethod("species", "ProjectSummary",
 setMethod("tissues", "ProjectSummary", function(object) object@tissues)
 
 #' Replaces the project tissues
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the tissues
 #' @author Jose A. Dianes
@@ -384,7 +383,7 @@ setReplaceMethod("tissues", "ProjectSummary",
 )
 
 #' Returns a project modification names
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project modification names
 #' @author Jose A. Dianes
@@ -392,7 +391,7 @@ setReplaceMethod("tissues", "ProjectSummary",
 setMethod("ptm.names", "ProjectSummary", function(object) object@ptm.names)
 
 #' Replaces the project PTMs
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the PTMs
 #' @author Jose A. Dianes
@@ -406,7 +405,7 @@ setReplaceMethod("ptm.names", "ProjectSummary",
 )
 
 #' Returns a project instrument names
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project instrument names
 #' @author Jose A. Dianes
@@ -414,7 +413,7 @@ setReplaceMethod("ptm.names", "ProjectSummary",
 setMethod("instrument.names", "ProjectSummary", function(object) object@instrument.names)
 
 #' Replaces the project instrument nanmes
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the instrument names
 #' @author Jose A. Dianes
@@ -428,7 +427,7 @@ setReplaceMethod("instrument.names", "ProjectSummary",
 )
 
 #' Returns a project tags
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project tags
 #' @author Jose A. Dianes
@@ -436,7 +435,7 @@ setReplaceMethod("instrument.names", "ProjectSummary",
 setMethod("project.tags", "ProjectSummary", function(object) object@project.tags)
 
 #' Replaces the project tags
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the project tags
 #' @author Jose A. Dianes
@@ -450,7 +449,7 @@ setReplaceMethod("project.tags", "ProjectSummary",
 )
 
 #' Returns a project submission type
-#' 
+#'
 #' @param object a ProjectSummary
 #' @return the project submission type
 #' @author Jose A. Dianes
@@ -458,7 +457,7 @@ setReplaceMethod("project.tags", "ProjectSummary",
 setMethod("submission.type", "ProjectSummary", function(object) object@submission.type)
 
 #' Replaces the project submission type
-#' 
+#'
 #' @param object a ProjectSummary
 #' @param value the submission type
 #' @author Jose A. Dianes
@@ -501,7 +500,7 @@ setMethod("as.data.frame", "ProjectSummary",
         value$instrument.names <- paste(object@instrument.names, collapse=" || ")
         value$project.tags <- paste(object@project.tags, collapse=" || ")
         value$submissionType <- object@submission.type
-        
+
         return(value)
     }
 )
@@ -533,7 +532,7 @@ from.json.ProjectSummary <- function(json.object) {
                project.tags = ifelse(is.null(json.object$projectTags) || (length(json.object$projectTags)==0), MISSING_VALUE, json.object$projectTags),
                submission.type = json.object$submissionType
     )
-    
+
     return (res)
 }
 
@@ -564,7 +563,7 @@ get.list.ProjectSummary <- function(count=10) {
 }
 
 #' Returns a series of PRIDE Archive projects
-#' to satisify a given query. This is actually a 
+#' to satisify a given query. This is actually a
 #' query filtered version of project_list
 #'
 #' @param q The query terms
@@ -577,10 +576,10 @@ get.list.ProjectSummary <- function(count=10) {
 search.list.ProjectSummary <- function(q, page.number=0, page.size=100) {
     json.list <- fromJSON(file=paste0(pride_archive_url, "/project/list", "?show=", page.size, "&page=", page.number, "&q=", q), method="C")
     project.list <- lapply(json.list[[1]], function(x) { from.json.ProjectSummary(x)})
-    projectSummaryList <- new("ProjectSummaryList", 
-                               query=q, 
-                               project.list=project.list, 
-                               page.number=page.number, 
+    projectSummaryList <- new("ProjectSummaryList",
+                               query=q,
+                               project.list=project.list,
+                               page.number=page.number,
                                page.size=page.size)
     return(projectSummaryList)
 }
@@ -594,6 +593,6 @@ search.list.ProjectSummary <- function(q, page.number=0, page.size=100) {
 #' @export
 count.ProjectSummary <- function() {
     projectCount <- fromJSON(file=paste0(pride_archive_url, "/project/count"), method="C")
-    projectCount                          
+    projectCount
 }
 

@@ -1,28 +1,28 @@
-pride_archive_url <- "http://www.ebi.ac.uk/pride/ws/archive"
-pride_archive_url_dev <- "http://wwwdev.ebi.ac.uk/pride/ws/archive"
+ddi_url <- "http://www.ebi.ac.uk/Tools/ddi/ws/"
+ddi_url_dev <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws/"
 MISSING_VALUE <- "Not available"
 
 #' PsmDetail represents a PRIDE Archive peptide-spectrum matching
 #'
 #' @importFrom rjson fromJSON
-#' @export 
+#' @export
 #' @exportClass PsmDetail
 setClass(
-  "PsmDetail", 
+  "PsmDetail",
   representation(
     id = "character",
-    project.accession = "character", 
-    assay.accession = "character", 
+    project.accession = "character",
+    assay.accession = "character",
     protein.accession = "character",
-    start.position = "numeric", 
-    end.position = "numeric", 
-    modifications = "vector", 
-    search.engines = "vector", 
-    search.engines.scores = "vector", 
-    retention.time = "numeric", 
+    start.position = "numeric",
+    end.position = "numeric",
+    modifications = "vector",
+    search.engines = "vector",
+    search.engines.scores = "vector",
+    retention.time = "numeric",
     charge = "numeric",
-    calculated.mz = "numeric", 
-    experimental.mz = "numeric", 
+    calculated.mz = "numeric",
+    experimental.mz = "numeric",
     pre.aa = "character",
     post.aa = "character",
     spectrum.id = "character",
@@ -31,18 +31,18 @@ setClass(
   ),
   prototype(
     id = "Not Available",
-    project.accession = "Not Available", 
-    assay.accession = "Not Available", 
+    project.accession = "Not Available",
+    assay.accession = "Not Available",
     protein.accession = "Not Available",
-    start.position = 0, 
-    end.position = 0, 
-    modifications = c("Not Available"), 
-    search.engines = c("Not Available"), 
-    search.engines.scores = c("Not Available"), 
-    retention.time = 0.0, 
+    start.position = 0,
+    end.position = 0,
+    modifications = c("Not Available"),
+    search.engines = c("Not Available"),
+    search.engines.scores = c("Not Available"),
+    retention.time = 0.0,
     charge = 0,
-    calculated.mz = 0.0, 
-    experimental.mz = 0.0, 
+    calculated.mz = 0.0,
+    experimental.mz = 0.0,
     pre.aa = "Not Available",
     post.aa = "Not Available",
     spectrum.id = "Not Available",
@@ -68,7 +68,7 @@ if (!isGeneric("id")) {
     setGeneric("id", function(object) standardGeneric("id"))
 }
 #' Returns a PSM id
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the ID
 #' @author Jose A. Dianes
@@ -79,7 +79,7 @@ if (!isGeneric("id<-")) {
     setGeneric("id<-", function(object, value) standardGeneric("id<-"))
 }
 #' Replaces a PSM is
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the id
 #' @author Jose A. Dianes
@@ -96,7 +96,7 @@ if (!isGeneric("project.accession")) {
     setGeneric("project.accession", function(object) standardGeneric("project.accession"))
 }
 #' Returns a PSM project.accession
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the project.accession
 #' @author Jose A. Dianes
@@ -107,7 +107,7 @@ if (!isGeneric("project.accession<-")) {
     setGeneric("project.accession<-", function(object, value) standardGeneric("project.accession<-"))
 }
 #' Replaces a PSM project.accession
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the project.accession
 #' @author Jose A. Dianes
@@ -124,7 +124,7 @@ if (!isGeneric("assay.accession")) {
     setGeneric("assay.accession", function(object) standardGeneric("assay.accession"))
 }
 #' Returns a PSM assay.accession
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the assay.accession
 #' @author Jose A. Dianes
@@ -135,7 +135,7 @@ if (!isGeneric("assay.accession<-")) {
     setGeneric("assay.accession<-", function(object, value) standardGeneric("assay.accession<-"))
 }
 #' Replaces a PSM assay.accession
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the assay.accession
 #' @author Jose A. Dianes
@@ -152,7 +152,7 @@ if (!isGeneric("protein.accession")) {
     setGeneric("protein.accession", function(object) standardGeneric("protein.accession"))
 }
 #' Returns a PSM protein.accession
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the protein.accession
 #' @author Jose A. Dianes
@@ -163,7 +163,7 @@ if (!isGeneric("protein.accession<-")) {
     setGeneric("protein.accession<-", function(object, value) standardGeneric("protein.accession<-"))
 }
 #' Replaces a PSM assay.accession
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the protein.accession
 #' @author Jose A. Dianes
@@ -180,7 +180,7 @@ if (!isGeneric("start.postion")) {
     setGeneric("start.postion", function(object) standardGeneric("start.postion"))
 }
 #' Returns a PSM start.postion
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the start.postion
 #' @author Jose A. Dianes
@@ -191,7 +191,7 @@ if (!isGeneric("start.postion<-")) {
     setGeneric("start.postion<-", function(object, value) standardGeneric("start.postion<-"))
 }
 #' Replaces a PSM start.postion
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the start.postion
 #' @author Jose A. Dianes
@@ -208,7 +208,7 @@ if (!isGeneric("end.position")) {
     setGeneric("end.position", function(object) standardGeneric("end.position"))
 }
 #' Returns a PSM end.position
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the end.position
 #' @author Jose A. Dianes
@@ -219,7 +219,7 @@ if (!isGeneric("end.position<-")) {
     setGeneric("end.position<-", function(object, value) standardGeneric("end.position<-"))
 }
 #' Replaces a PSM end.position
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the end.position
 #' @author Jose A. Dianes
@@ -236,7 +236,7 @@ if (!isGeneric("modifications")) {
     setGeneric("modifications", function(object) standardGeneric("modifications"))
 }
 #' Returns a PSM modifications
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the modifications
 #' @author Jose A. Dianes
@@ -247,7 +247,7 @@ if (!isGeneric("modifications<-")) {
     setGeneric("modifications<-", function(object, value) standardGeneric("modifications<-"))
 }
 #' Replaces a PSM modifications
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the id
 #' @author Jose A. Dianes
@@ -264,7 +264,7 @@ if (!isGeneric("search.engines")) {
     setGeneric("search.engines", function(object) standardGeneric("search.engines"))
 }
 #' Returns a PSM search.engines
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the search.engines
 #' @author Jose A. Dianes
@@ -275,7 +275,7 @@ if (!isGeneric("search.engines<-")) {
     setGeneric("search.engines<-", function(object, value) standardGeneric("search.engines<-"))
 }
 #' Replaces a PSM search.engines
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the search.engines
 #' @author Jose A. Dianes
@@ -292,7 +292,7 @@ if (!isGeneric("search.engines.scores")) {
     setGeneric("search.engines.scores", function(object) standardGeneric("search.engines.scores"))
 }
 #' Returns a PSM search.engines.scores
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the search.engines.scores
 #' @author Jose A. Dianes
@@ -303,7 +303,7 @@ if (!isGeneric("search.engines.scores<-")) {
     setGeneric("search.engines.scores<-", function(object, value) standardGeneric("search.engines.scores<-"))
 }
 #' Replaces a PSM search.engines.scores
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the search.engines.scores
 #' @author Jose A. Dianes
@@ -320,7 +320,7 @@ if (!isGeneric("retention.time")) {
     setGeneric("retention.time", function(object) standardGeneric("retention.time"))
 }
 #' Returns a PSM retention.time
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the retention.time
 #' @author Jose A. Dianes
@@ -331,7 +331,7 @@ if (!isGeneric("retention.time<-")) {
     setGeneric("retention.time<-", function(object, value) standardGeneric("retention.time<-"))
 }
 #' Replaces a PSM retention.time
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the retention.time
 #' @author Jose A. Dianes
@@ -348,7 +348,7 @@ if (!isGeneric("charge")) {
     setGeneric("charge", function(object) standardGeneric("charge"))
 }
 #' Returns a PSM charge
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the charge
 #' @author Jose A. Dianes
@@ -359,7 +359,7 @@ if (!isGeneric("charge<-")) {
     setGeneric("charge<-", function(object, value) standardGeneric("charge<-"))
 }
 #' Replaces a PSM charge
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the charge
 #' @author Jose A. Dianes
@@ -376,7 +376,7 @@ if (!isGeneric("calculated.mz")) {
     setGeneric("calculated.mz", function(object) standardGeneric("calculated.mz"))
 }
 #' Returns a PSM calculated.mz
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the calculated.mz
 #' @author Jose A. Dianes
@@ -387,7 +387,7 @@ if (!isGeneric("calculated.mz<-")) {
     setGeneric("calculated.mz<-", function(object, value) standardGeneric("calculated.mz<-"))
 }
 #' Replaces a PSM calculated.mz
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the calculated.mz
 #' @author Jose A. Dianes
@@ -404,7 +404,7 @@ if (!isGeneric("experimental.mz")) {
     setGeneric("experimental.mz", function(object) standardGeneric("experimental.mz"))
 }
 #' Returns a PSM experimental.mz
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the experimental.mz
 #' @author Jose A. Dianes
@@ -415,7 +415,7 @@ if (!isGeneric("experimental.mz<-")) {
     setGeneric("experimental.mz<-", function(object, value) standardGeneric("experimental.mz<-"))
 }
 #' Replaces a PSM experimental.mz
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the experimental.mz
 #' @author Jose A. Dianes
@@ -432,7 +432,7 @@ if (!isGeneric("pre.aa")) {
     setGeneric("pre.aa", function(object) standardGeneric("pre.aa"))
 }
 #' Returns a PSM pre.aa
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the pre.aa
 #' @author Jose A. Dianes
@@ -443,7 +443,7 @@ if (!isGeneric("pre.aa<-")) {
     setGeneric("pre.aa<-", function(object, value) standardGeneric("pre.aa<-"))
 }
 #' Replaces a PSM pre.aa
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the pre.aa
 #' @author Jose A. Dianes
@@ -460,7 +460,7 @@ if (!isGeneric("post.aa")) {
     setGeneric("post.aa", function(object) standardGeneric("post.aa"))
 }
 #' Returns a PSM post.aa
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the post.aa
 #' @author Jose A. Dianes
@@ -471,7 +471,7 @@ if (!isGeneric("post.aa<-")) {
     setGeneric("post.aa<-", function(object, value) standardGeneric("post.aa<-"))
 }
 #' Replaces a PSM post.aa
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the post.aa
 #' @author Jose A. Dianes
@@ -488,7 +488,7 @@ if (!isGeneric("spectrum.id")) {
     setGeneric("spectrum.id", function(object) standardGeneric("spectrum.id"))
 }
 #' Returns a PSM spectrum.id
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the spectrum.id
 #' @author Jose A. Dianes
@@ -499,7 +499,7 @@ if (!isGeneric("spectrum.id<-")) {
     setGeneric("spectrum.id<-", function(object, value) standardGeneric("spectrum.id<-"))
 }
 #' Replaces a PSM spectrum.id
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the spectrum.id
 #' @author Jose A. Dianes
@@ -516,7 +516,7 @@ if (!isGeneric("reported.id")) {
     setGeneric("reported.id", function(object) standardGeneric("reported.id"))
 }
 #' Returns a PSM reported.id
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the reported.id
 #' @author Jose A. Dianes
@@ -527,7 +527,7 @@ if (!isGeneric("reported.id<-")) {
     setGeneric("reported.id<-", function(object, value) standardGeneric("reported.id<-"))
 }
 #' Replaces a PSM reported.id
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the reported.id
 #' @author Jose A. Dianes
@@ -544,7 +544,7 @@ if (!isGeneric("sequence")) {
     setGeneric("sequence", function(object) standardGeneric("sequence"))
 }
 #' Returns a PSM sequence
-#' 
+#'
 #' @param object a PsmDetail
 #' @return the sequence
 #' @author Jose A. Dianes
@@ -555,7 +555,7 @@ if (!isGeneric("sequence<-")) {
     setGeneric("sequence<-", function(object, value) standardGeneric("sequence<-"))
 }
 #' Replaces a PSM sequence
-#' 
+#'
 #' @param object a ProteinDetail
 #' @param value the sequence
 #' @author Jose A. Dianes
@@ -605,7 +605,7 @@ as.data.frame.PsmDetail <-
     value$spectrum.id <- x@spectrum.id
     value$reported.id <- x@reported.id
     value$sequence <- x@sequence
-    
+
     return(value)
   }
 
@@ -623,7 +623,7 @@ format.PsmDetail <- function(x, ...) paste0(x@id, ", ", x@assayAccession)
 #' @importFrom rjson fromJSON
 #' @export
 from.json.PsmDetail <- function(json.object) {
-    
+
     res <- new("PsmDetail",
                id = json.object$id,
                project.accession = json.object$projectAccession,
@@ -644,7 +644,7 @@ from.json.PsmDetail <- function(json.object) {
                reported.id = ifelse(is.null(json.object$reportedID), 0.0, json.object$reportedID),
                sequence = json.object$sequence
     )
-    
+
     return (res)
 }
 
@@ -671,9 +671,9 @@ get.list.PsmDetail <- function(project.accession, count=100) {
 #' @details TODO
 #' @importFrom rjson fromJSON
 #' @export
-count.PsmDetail <- function(project.accession) {    
+count.PsmDetail <- function(project.accession) {
     psm.count <- fromJSON(file=URLencode(paste0(pride_archive_url, "/peptide/count/project/", project.accession)), method="C")
-    psm.count                          
+    psm.count
 }
 
 
