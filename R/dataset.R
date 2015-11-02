@@ -127,6 +127,94 @@ from.json.DatasetDetail <- function(json.object){
     return(res)
 }
 
+
+#' from.json.FacetValue
+#'
+#' This function converts a json FacetValue object to FaceTvalue
+#' @param json.object
+#' @return FacetValue
+#'
+from.json.FacetValue <- function(json.object){
+    res <- new("FacetValue",
+               value = json.object$value,
+               count = json.object$count,
+               label = json.object$label
+               )
+    return(res)
+}
+
+
+
+#' from.json.Facet
+#'
+#' This function convert a from.json.Facet to a Facet
+#' @param json.object
+#' @return Facet
+#'
+from.json.Facet <- function(json.object){
+    res <- new("Facet",
+               facet.id    = json.object$id,
+               total       = json.object$total,
+               facetValues = ifelse(is.null(json.object$facetValues) || (length(json.object$facetValues) == 0), c(MISSING_VALUE),
+                                    lapply(json.object$facetValues,function(x){
+                                        from.json.FacetValue(x)
+                                    })
+               ),
+               label = json.object$label
+    )
+    return(res)
+}
+
+#' from.json.DatasetSummary
+#'
+#' This function converts a json object to a DatasetSummary
+#'
+#' @param json.object
+#' @return DatasetSummary
+#'
+from.json.DatasetSummary <- function(json.object){
+    res <- new("DatasetSummary",
+                dataset.id  = json.object$id,
+                description = json.object$description,
+                database    = json.object$source,
+                keywords    = json.object$keywords,
+                publication.date = json.object$publicationDate,
+                organisms = ifelse(is.null(json.object$organisms) || (length(json.object$organisms) == 0), c(MISSING_VALUE),
+                                   lapply(json.object$organisms,function(x){
+                                       from.json.Organism(x)
+                                   }
+                                   )
+                ),
+                title   = json.object$title,
+                visit.count = json.object$visitCount
+               )
+    return(res)
+}
+
+#' from.json.DatasetResults
+#'
+#' This function get information from DatasetResults
+#' @param json.object
+#' @return DatasetResult
+#'
+from.json.DatasetResults <- function(json.object){
+    res <- new("DatasetResult",
+               count  = json.object$count,
+               facets = ifelse(is.null(json.object$facets) || (length(json.object$facets) == 0), c(MISSING_VALUE),
+                                lapply(json.object$facets,function(x){
+                                                                from.json.Facet(x)
+                                                           }
+                                      )
+                              ),
+               datasets = ifelse(is.null(json.object$datasets) || (length(json.object$datasets) == 0), c(MISSING_VALUE),
+                                 lapply(json.object$datasets,function(x){
+                                                      from.json.DatasetSummary(x)
+               }
+               ))
+              )
+    return(res)
+}
+
 setMethod("show",
           signature = "DatasetDetail",
           definition = function(object) {
@@ -135,16 +223,9 @@ setMethod("show",
               cat("    Dataset Id: ", object$dataset.id, "\n", sep="")
               cat("    Database: ", object$database, "\n", sep="")
               cat("    Description: ", object$description, "\n", sep="")
-#               cat("    Publication Date #: ", object@publication.date, "\n", sep="")
-#               cat("    keywords # ", object@keywords, "\n", sep="")
-#               cat("    organisms #: ", object@organisms, "\n", sep="")
-#               cat("    Count Visit #: ", object@visit.count, "\n", sep="")
               invisible(NULL)
           }
 )
-
-
-
 
 #' Returns a DatasetDetail from OmicsDI
 #'
@@ -161,5 +242,10 @@ get.DatasetDetail <- function(accession, database) {
     return(datasetDetail)
 }
 
-
+#' search.Dataset research
+seach.Dataset    <- function(query, sort.field, start, size, faceCount){
+    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query", query, "&sort=", start, "&size=", size, "&faceCount=", faceCount, "&sort_field=", sort.field))
+    datasetResults <- from.json.DataSetResults(json.datasetSummary)
+    return(datasetResults)
+}
 
