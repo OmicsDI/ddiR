@@ -1,2 +1,2 @@
 library(testthat)
-test_check("prideR")
+test_check("ddiR")

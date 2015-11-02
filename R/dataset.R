@@ -69,42 +69,28 @@ from.json.Organism <- function(x, row.names=NULL, optional=FALSE, ...)
         return(value)
     }
 
-#' Returns a PRIDE Archive assay
+
+from.json.DatasetDetail <- function(json.object){
+    res <- new("DatasetDetail",
+               name         = json.object@name,
+               dataset.id   = json.object@id,
+               description  = json.object@description,
+               database     = json.object@source)
+    return(res)
+}
+
+
+#' Returns a DatasetDetail from OmicsDI
 #'
-#' @param accession The assay accession
-#' @return The assay as object of AssayDetail
+#' @param accession id in the original repository
+#' @param database the original database where this dataset has been store
+#' @return DatasetDetail
 #' @author Jose A. Dianes
 #' @details TODO
 #' @importFrom rjson fromJSON
 #' @export
-get.DatasetResult <- function(assay.accession) {
-    from.json.AssayDetail(fromJSON(file=paste0(ddi_url, "/assay/", assay.accession), method="C"))
+get.DatasetDetail <- function(accession, database) {
+    json.datsetDetail <- fromJSON(file=paste0(ddi_url, "/dataset/get?", "acc=", accession, "&database=", database), method="C")
+    datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
+    return(datasetDetail)
 }
-
-#' Returns a list of PRIDE Archive assays associated to a project
-#'
-#' @param project.accession the project accession
-#' @return The list of AssayDetail objects
-#' @author Jose A. Dianes
-#' @details TODO
-#' @importFrom rjson fromJSON
-#' @export
-get.list.AssayDetail <- function(project.accession) {
-    json.list <- fromJSON(file=paste0(ddi_url, "/dataset/get?", "acc=", accession, "&database=", database), method="C")
-    assay.list <- lapply(json.list[[1]], function(x) { from.json.AssayDetail(x)})
-    return(assay.list)
-}
-
-#' Returns the number of assays associated with a project
-#'
-#'@param project.accession the project accession
-#' @return The count of assays
-#' @author Jose A. Dianes
-#' @details TODO
-#' @importFrom rjson fromJSON
-#' @export
-count.AssayDetail <- function(project.accession) {
-    assayCount <- fromJSON(file=paste0(pride_archive_url, "/assay/count/project/", project.accession), method="C")
-    assayCount
-}
-

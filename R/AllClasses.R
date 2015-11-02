@@ -238,8 +238,8 @@ setClass("Protocol",
 setClass("LabMember",
          slots = c(
              name = "character",
-             role = "charatcer",
-             affilation = "chracter",
+             role = "character",
+             affilation = "character",
              email = "character"
              ),
 
