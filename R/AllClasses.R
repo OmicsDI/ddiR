@@ -45,6 +45,36 @@ setClass("DatasetSummary",
   }
 )
 
+#' Organism return an organism entity including its name and accession
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass Organism
+
+setClass("Organism",
+
+         slots = c(
+             name = "character",
+             accession = "character"
+         ),
+
+         prototype = list(
+             name = MISSING_VALUE,
+             accession = MISSING_VALUE
+         ),
+
+         validity = function(object){
+             # check assay.accession
+             if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
+                 return("'dataset.id' must be a single valid string")
+
+             # check project.accession
+             if (!is.character(object@accession) || nchar(object@accession) == 0 || is.na(object@accession))
+                 return("'database' must be a single valid string")
+         }
+)
+
 #' ContactDetail represents a PRIDE Archive assay's contact
 #'
 #' @export
