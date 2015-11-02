@@ -4,19 +4,18 @@
 \alias{search.DatasetsSummary}
 \title{search.DatasetsSummary}
 \usage{
-search.DatasetsSummary(query = "", sort.field = "", start = 0,
-  size = 20, faceCount)
+search.DatasetsSummary(query = "", start = 0, size = 20, faceCount = 20)
 }
 \arguments{
 \item{query}{the current query of the search}
-
-\item{sort.field}{the field to sort the results}
 
 \item{start}{where to start the page}
 
 \item{size}{how many elements to read}
 
 \item{faceCount}{the information of all the facets for the search}
+
+\item{sort.field}{the field to sort the results}
 }
 \value{
 DatasetResults

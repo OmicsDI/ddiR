@@ -175,17 +175,20 @@ from.json.Facet <- function(json.object){
 from.json.DatasetSummary <- function(json.object){
     res <- new("DatasetSummary",
                 dataset.id  = json.object$id,
-                description = json.object$description,
+                description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),
+                                     MISSING_VALUE, json.object$description),
                 database    = json.object$source,
-                keywords    = json.object$keywords,
-                publication.date = json.object$publicationDate,
+                keywords    = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
+                                     c(MISSING_VALUE),json.object$keywords),
+                publication.date = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0), MISSING_VALUE, json.object$publicationDate),
                 organisms = ifelse(is.null(json.object$organisms) || (length(json.object$organisms) == 0), c(MISSING_VALUE),
                                    lapply(json.object$organisms,function(x){
                                        from.json.Organism(x)
                                    }
                                    )
                 ),
-                title   = json.object$title,
+                title   = ifelse(is.null(json.object$title) || (length(json.object$title) == 0),
+                                 MISSING_VALUE, json.object$title),
                 visit.count = json.object$visitCount
                )
     return(res)
@@ -208,7 +211,7 @@ from.json.DatasetResults <- function(json.object){
                               ),
                datasets = ifelse(is.null(json.object$datasets) || (length(json.object$datasets) == 0), c(MISSING_VALUE),
                                  lapply(json.object$datasets,function(x){
-                                                      from.json.DatasetSummary(x)
+                                     from.json.DatasetSummary(x)
                }
                ))
               )
@@ -255,8 +258,8 @@ get.DatasetDetail <- function(accession, database) {
 #' @importFrom rjson fromJSON
 #' @export
 
-search.DatasetsSummary <- function(query = "", sort.field = "", start = 0, size = 20, faceCount = 20){
-    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query", query, "&start=", start, "&size=", size, "&faceCount=", faceCount, "&sort_field=", sort.field))
+search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount = 20){
+    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount))
     datasetResults <- from.json.DatasetResults(json.datasetSummary)
     return(datasetResults)
 }

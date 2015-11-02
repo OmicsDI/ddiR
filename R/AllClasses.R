@@ -104,24 +104,24 @@ setClass("FacetValue",
          }
 )
 
-#' DataSetReult, provides a list of datasets for an specific query
+#' DatasetResult, provides a list of datasets for an specific query
 #'
 #' @importFrom rjson fromJSON
 #' @import methods
 #' @export
-#' @exportClass DataSetResult
+#' @exportClass DatasetResult
 #'
-#'
-setClass("DataSetResult",
-         slots = c(
+setClass("DatasetResult",
+         representation(
              count  = "numeric",
              facets = "vector",
-             datasets = "vector"),
+             datasets = "vector"
+         ),
 
-         prototype = list(
+         prototype(
              count  = 0,
-             facets = list(),
-             datasets = list()
+             facets = c(MISSING_VALUE),
+             datasets = c(MISSING_VALUE)
          )
 )
 
@@ -298,7 +298,7 @@ setClass("StatRecord",
 #' @importFrom rjson fromJSON
 #' @import methods
 #' @export
-#' @exportClass DicWord
+#' @exportClass DictWord
 #'
 setClass("DictWord",
          slots = c(
