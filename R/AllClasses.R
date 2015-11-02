@@ -67,56 +67,83 @@ setClass("Organism",
          validity = function(object){
              # check assay.accession
              if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
-                 return("'dataset.id' must be a single valid string")
+                 return("'name' must be a single valid string")
 
              # check project.accession
              if (!is.character(object@accession) || nchar(object@accession) == 0 || is.na(object@accession))
-                 return("'database' must be a single valid string")
+                 return("'accession' must be a single valid string")
          }
 )
 
-#' ContactDetail represents a PRIDE Archive assay's contact
+#'FacetValue provides the information about an specific Facet in the API
 #'
+#' @importFrom rjson fromJSON
+#' @import methods
 #' @export
-#' @exportClass ContactDetail
-setClass(
-  "ContactDetail",
-
-  slots = c(
-            title = "character",
-            first.name = "character",
-            last.name = "character",
-            email = "character",
-            affiliation = "character"
+#' @exportClass FacetValue
+#'
+setClass("FacetValue",
+         slots = c(value = "character",
+                   count = "character",
+                   label = "character",
           ),
+         prototype = list( value = MISSING_VALUE,
+                           count = MISSING_VALUE,
+                           label = MISSING_VALUE
+         ),
+         validity = function(object){
+             # check assay.accession
+             if (!is.character(object@value) || nchar(object@value) == 0 || is.na(object@value))
+                 return("'value' must be a single valid string")
 
-  prototype = list(
-                title = MISSING_VALUE,
-                first.name = MISSING_VALUE,
-                last.name = MISSING_VALUE,
-                email = MISSING_VALUE,
-                affiliation = MISSING_VALUE
-              ),
+             # check project.accession
+             if (!is.character(object@count) || nchar(object@count) == 0 || is.na(object@count))
+                 return("'value' must be a single valid string")
 
-  validity = function(object) {
-    # check title
-    if (!is.character(object@title) || nchar(object@title) == 0 || is.na(object@title))
-      return("'title' must be a single valid string")
+             # check project.accession
+             if (!is.character(object@label) || nchar(object@label) == 0 || is.na(object@label))
+                 return("'label' must be a single valid string")
 
-    # check first.name
-    if (!is.character(object@first.name) || nchar(object@first.name) == 0 || is.na(object@first.name))
-      return("'first.name' must be a single valid string")
+         }
+)
 
-    # check last.name
-    if (!is.character(object@last.name) || nchar(object@last.name) == 0 || is.na(object@last.name))
-      return("'last.name' must be a single valid string")
+#'DataSetReult provides a list of datasets for an specific query
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass DataSetResult
+#'
+setClass("DataSetResult",
+         slots = c(
+             count  = "numeric",
+             facets = "vector",
+             datasets = "vector"),
 
-    # check email
-    if (!is.character(object@email) || nchar(object@email) == 0 || !grepl("@", object@email) || is.na(object@email))
-      return("'email' must be a single valid email address")
+         prototype = list(
+             count  = 0,
+             facets = list(),
+             datasets = list()
+         )
+)
 
-    # check affiliation
-    if (!is.character(object@affiliation) || nchar(object@affiliation) == 0 || is.na(object@affiliation))
-      return("'affiliation' must be a single valid string")
-  }
+#'Facet provides the information about an specific Facet in the API
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass Facet
+#'
+setClass("Facet",
+         slots = c(
+             facet.id = "character",
+             total    = "numeric",
+             facetValues = "vector",
+             label = "character"),
+         prototype = list(
+             facet.id = MISSING_VALUE,
+             label    = MISSING_VALUE,
+             total    = 0,
+             facetValues = list()
+         )
 )
