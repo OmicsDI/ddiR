@@ -85,7 +85,7 @@ setClass("Organism",
 setClass("FacetValue",
          slots = c(value = "character",
                    count = "character",
-                   label = "character",
+                   label = "character"
           ),
          prototype = list( value = MISSING_VALUE,
                            count = MISSING_VALUE,
@@ -148,3 +148,173 @@ setClass("Facet",
          )
 )
 
+#' StatRecord, This class contains the information of statistics records
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass StatRecord
+setClass("StatRecord",
+         slots = c(
+             name  = "character",
+             value = "character",
+             id    = "character",
+             label = "character"),
+         prototype = list(
+             name  = MISSING_VALUE,
+             value = MISSING_VALUE,
+             id    = MISSING_VALUE,
+             label = MISSING_VALUE),
+         validity = function(object){
+
+             # check name
+             if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
+                 return("'name' must be a single valid string")
+
+             # check value
+             if (!is.character(object@value) || nchar(object@value) == 0 || is.na(object@value))
+                 return("'value' must be a single valid string")
+
+             # check id
+             if (!is.character(object@id) || nchar(object@id) == 0 || is.na(object@id))
+                 return("'id' must be a single valid string")
+
+             # check label
+             if (!is.character(object@label) || nchar(object@label) == 0 || is.na(object@label))
+                 return("'label' must be a single valid string")
+         }
+)
+
+#' DictWord, This class contains the information of a list of Dictionary Words
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass StatRecord
+setClass("DictWord",
+         slots = c(
+             total.count = "numeric",
+             items = "vector"),
+         prototype = list(
+             total.count = 0,
+             items = list()
+        )
+)
+
+#' Item, This class contains the information of an Item in the Dictonary
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass Item
+setClass("Item",
+         slots = c(
+             name = "character"
+         ),
+
+         prototype = list(
+             name = MISSING_VALUE
+         ),
+
+         validity = function(object){
+             # check name
+             if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
+                 return("'name' must be a single valid string")
+         }
+)
+
+#' Term, This class contains the information of a Term
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass Term
+setClass("Term",
+         slots = c(
+              label = "character",
+              frequent = "character"
+              ),
+
+         prototype = list(
+             label = MISSING_VALUE,
+             frequent = MISSING_VALUE
+         )
+)
+
+#' PiublicationResult, This class contains a list of publication for specific Query
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass PublicationResult
+setClass("PublicationResult",
+
+         slots = c(count = "numeric",
+                   publications = "vector"),
+
+         prototype = list(
+             count = 0,
+             publications = list()
+         )
+)
+
+#' PublicationDetail, This class contains a Publication Record
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass PublicationDetail
+setClass("PublicationDetail",
+         slots = c(
+             id         = "character",
+             date       = "character",
+             database   = "character",
+             keywords   = "vector",
+             affilation = "vector",
+             title      = "character",
+             authors    = "vector",
+             abstract   = "vector",
+             journal    = "character",
+             issue      = "character",
+             pagination = "character",
+             volume     = "character"
+         ),
+
+         prototype = list(
+                 id         = MISSING_VALUE,
+                 date       = MISSING_VALUE,
+                 database   = MISSING_VALUE,
+                 keywords   = list(),
+                 affilation = list(),
+                 title      = MISSING_VALUE,
+                 authors    = list(),
+                 abstract   = list(),
+                 journal    = MISSING_VALUE,
+                 issue      = MISSING_VALUE,
+                 pagination = MISSING_VALUE,
+                 volume     = MISSING_VALUE
+             ),
+
+         validity = function(object){
+
+             # check id
+             if (!is.character(object@id) || nchar(object@id) == 0 || is.na(object@id))
+                 return("'id' must be a single valid string")
+
+             # check date
+             if (!is.character(object@date) || nchar(object@date) == 0 || is.na(object@date))
+                 return("'date' must be a single valid string")
+
+             # check database
+             if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
+                 return("'database' must be a single valid string")
+
+             # check title
+             if (!is.character(object@title) || nchar(object@title) == 0 || is.na(object@title))
+                 return("'title' must be a single valid string")
+
+             # check journal
+             if (!is.character(object@journal) || nchar(object@journal) == 0 || is.na(object@journal))
+                 return("'journal' must be a single valid string")
+         }
+)
