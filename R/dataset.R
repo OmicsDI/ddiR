@@ -1,5 +1,5 @@
-ddi_url <- "http://www.ebi.ac.uk/Tools/ddi/ws/"
-ddi_url_dev <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws/"
+ddi_url     <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws"
+ddi_url_dev <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws"
 
 MISSING_VALUE <- "Not available"
 
@@ -72,12 +72,30 @@ from.json.Organism <- function(x, row.names=NULL, optional=FALSE, ...)
 
 from.json.DatasetDetail <- function(json.object){
     res <- new("DatasetDetail",
-               name         = json.object@name,
-               dataset.id   = json.object@id,
-               description  = json.object@description,
-               database     = json.object@source)
+               name         = json.object$name,
+               dataset.id   = json.object$id,
+               description  = json.object$description,
+               database     = json.object$source)
     return(res)
 }
+
+setMethod("show",
+          signature = "DatasetDetail",
+          definition = function(object) {
+              cat("An object of class ", class(object), "\n", sep="")
+              cat("    Name: ", object$name, "\n", sep="")
+              cat("    Dataset Id: ", object$dataset.id, "\n", sep="")
+              cat("    Database: ", object$database, "\n", sep="")
+              cat("    Description: ", object$description, "\n", sep="")
+#               cat("    Publication Date #: ", object@publication.date, "\n", sep="")
+#               cat("    keywords # ", object@keywords, "\n", sep="")
+#               cat("    organisms #: ", object@organisms, "\n", sep="")
+#               cat("    Count Visit #: ", object@visit.count, "\n", sep="")
+              invisible(NULL)
+          }
+)
+
+
 
 
 #' Returns a DatasetDetail from OmicsDI
@@ -90,7 +108,7 @@ from.json.DatasetDetail <- function(json.object){
 #' @importFrom rjson fromJSON
 #' @export
 get.DatasetDetail <- function(accession, database) {
-    json.datsetDetail <- fromJSON(file=paste0(ddi_url, "/dataset/get?", "acc=", accession, "&database=", database), method="C")
+    json.datsetDetail <- fromJSON(file=paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method="C")
     datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
     return(datasetDetail)
 }
