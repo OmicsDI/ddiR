@@ -6,6 +6,7 @@ MISSING_VALUE <- "Not available"
 #' @import methods
 #' @export
 #' @exportClass DatasetSummary
+#'
 setClass("DatasetSummary",
   slots = c(
       dataset.id  = "character",
@@ -103,12 +104,13 @@ setClass("FacetValue",
          }
 )
 
-#'DataSetReult provides a list of datasets for an specific query
+#' DataSetReult, provides a list of datasets for an specific query
 #'
 #' @importFrom rjson fromJSON
 #' @import methods
 #' @export
 #' @exportClass DataSetResult
+#'
 #'
 setClass("DataSetResult",
          slots = c(
@@ -144,7 +146,13 @@ setClass("Facet",
          )
 )
 
-
+#' DatasetDetail provides the information about an specific Facet in the API
+#'
+#' @importFrom rjson fromJSON
+#' @import methods
+#' @export
+#' @exportClass DatasetDetail
+#'
 setClass("DatasetDetail",
          slots = c(
              name         = "character",
@@ -201,6 +209,7 @@ setClass("DatasetDetail",
 #' @import methods
 #' @export
 #' @exportClass Protocol
+#'
 setClass("Protocol",
 
          slots = c(
@@ -252,6 +261,7 @@ setClass("LabMember",
 #' @import methods
 #' @export
 #' @exportClass StatRecord
+
 setClass("StatRecord",
          slots = c(
              name  = "character",
@@ -288,7 +298,8 @@ setClass("StatRecord",
 #' @importFrom rjson fromJSON
 #' @import methods
 #' @export
-#' @exportClass StatRecord
+#' @exportClass DicWord
+#'
 setClass("DictWord",
          slots = c(
              total.count = "numeric",
@@ -305,6 +316,7 @@ setClass("DictWord",
 #' @import methods
 #' @export
 #' @exportClass Item
+#'
 setClass("Item",
          slots = c(
              name = "character"
@@ -327,6 +339,7 @@ setClass("Item",
 #' @import methods
 #' @export
 #' @exportClass Term
+
 setClass("Term",
          slots = c(
               label = "character",
@@ -345,6 +358,7 @@ setClass("Term",
 #' @import methods
 #' @export
 #' @exportClass PublicationResult
+
 setClass("PublicationResult",
 
          slots = c(count = "numeric",
@@ -362,6 +376,7 @@ setClass("PublicationResult",
 #' @import methods
 #' @export
 #' @exportClass PublicationDetail
+#'
 setClass("PublicationDetail",
          slots = c(
              id         = "character",

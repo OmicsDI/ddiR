@@ -232,7 +232,7 @@ setMethod("show",
 #' @param accession id in the original repository
 #' @param database the original database where this dataset has been store
 #' @return DatasetDetail
-#' @author Jose A. Dianes
+#' @author Yasset Perez-Riverol
 #' @details TODO
 #' @importFrom rjson fromJSON
 #' @export
@@ -242,10 +242,22 @@ get.DatasetDetail <- function(accession, database) {
     return(datasetDetail)
 }
 
-#' search.Dataset research
-seach.Dataset    <- function(query, sort.field, start, size, faceCount){
-    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query", query, "&sort=", start, "&size=", size, "&faceCount=", faceCount, "&sort_field=", sort.field))
-    datasetResults <- from.json.DataSetResults(json.datasetSummary)
+#' search.DatasetsSummary
+#'
+#' This function search for dataset summaries in the resource
+#'
+#' @param query the current query of the search
+#' @param sort.field the field to sort the results
+#' @param start where to start the page
+#' @param size how many elements to read
+#' @param faceCount the information of all the facets for the search
+#' @return DatasetResults
+#' @importFrom rjson fromJSON
+#' @export
+
+search.DatasetsSummary <- function(query = "", sort.field = "", start = 0, size = 20, faceCount = 20){
+    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query", query, "&start=", start, "&size=", size, "&faceCount=", faceCount, "&sort_field=", sort.field))
+    datasetResults <- from.json.DatasetResults(json.datasetSummary)
     return(datasetResults)
 }
 

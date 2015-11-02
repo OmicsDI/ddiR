@@ -21,6 +21,6 @@ Returns a DatasetDetail from OmicsDI
 TODO
 }
 \author{
-Jose A. Dianes
+Yasset Perez-Riverol
 }
 

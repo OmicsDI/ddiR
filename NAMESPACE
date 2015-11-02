@@ -2,6 +2,7 @@
 
 export(from.json.DataSetResult)
 export(get.DatasetDetail)
+export(search.DatasetsSummary)
 exportClasses(DataSetResult)
 exportClasses(DatasetSummary)
 exportClasses(DictWord)
