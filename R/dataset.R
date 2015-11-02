@@ -34,7 +34,7 @@ from.json.DataSetResult <- function(json.object) {
     res <- new("DatasetResult",
                title = json.object$title,
                dataset.id = json.object$id,
-               database = json.object$source,
+               # database = json.object$source,
                description = json.object$description,
                publication.date = json.object$publicationDate,
                keywords = ifelse(is.null(json.object$keywords)||(length(json.object$keywords)==0), c(MISSING_VALUE), json.object$keywords),
@@ -70,12 +70,26 @@ from.json.Organism <- function(x, row.names=NULL, optional=FALSE, ...)
     }
 
 
+from.json.Protocol <- function(json.object){
+    res <- new("Protocol",
+               name  = json.object$name,
+               description = json.object$description
+    )
+    return(res)
+}
 from.json.DatasetDetail <- function(json.object){
     res <- new("DatasetDetail",
                name         = json.object$name,
                dataset.id   = json.object$id,
                description  = json.object$description,
-               database     = json.object$source)
+               database     = json.object$source,
+               full.dataset.link  = json.object$full_dataset_link,
+               publication.date   = json.object$publicationDate,
+               protocols    = ifelse(is.null(json.object$protocols) || (length(json.object$protocols) == 0), c(MISSING_VALUE), lapply(json.object$protocols,function(x){
+                   from.json.Protocol(x)
+                   }
+               ))
+    )
     return(res)
 }
 
@@ -108,7 +122,10 @@ setMethod("show",
 #' @importFrom rjson fromJSON
 #' @export
 get.DatasetDetail <- function(accession, database) {
-    json.datsetDetail <- fromJSON(file=paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method="C")
+    json.datsetDetail <- fromJSON(file = paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method = "C")
     datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
     return(datasetDetail)
 }
+
+
+
