@@ -49,27 +49,26 @@ from.json.DataSetResult <- function(json.object) {
     return (res)
 }
 
-from.json.Organism <- function(x, row.names=NULL, optional=FALSE, ...)
-    {
-        # set row names if provided
-        if (is.null(row.names))
-            row.names <- x@assay.accession
-        # create the data frame just with the accession column
-        value <- list(x@assay.accession)
-        attr(value, "row.names") <- row.names
-        class(value) <- "data.frame"
-        names(value) <- c("assay.accession")
-        # add the rest of the columns
-        value$project.accession <- x@project.accession
-        value$protein.count <- x@protein.count
-        value$peptide.count <- x@peptide.count
-        value$unique.peptide.count <- x@unique.peptide.count
-        value$identified.spectrum.count <- x@identified.spectrum.count
-        value$total.spectrum.count <- x@total.spectrum.count
-        return(value)
+#' from.json.Organism
+#'
+#' This function converts an Organism json object to Organism
+#'
+#' @param json.object
+#' @return Organism
+#'
+from.json.Organism <- function(json.object){
+        res <- new ("Organism",
+                    name = json.object$name,
+                    accession = json.object$acc
+                    )
+        return(res)
     }
 
-
+#' from.json.Protocol This function converts a json Protocol object to a Protocol object
+#'
+#' @param json.object
+#' @return Protocol Object
+#'
 from.json.Protocol <- function(json.object){
     res <- new("Protocol",
                name  = json.object$name,
@@ -77,6 +76,27 @@ from.json.Protocol <- function(json.object){
     )
     return(res)
 }
+
+#' from.json.LabMember
+#'
+#' This function convert objects from json to LabMember
+#' @param json.object object
+#' @return LabMember
+#'
+from.json.LabMember <- function(json.object){
+    res <- new("LabMember",
+               name = json.object$name,
+               role = json.object$role,
+               affilation = json.object$affilation,
+               email = json.object$email)
+    return(res)
+}
+
+#' from.json.DatasetDetail This function converts a json DatasetDetail to a DatasetDetail
+#'
+#'@param json.object a DatasetDetail json object
+#'@return DatasetDetail
+#'
 from.json.DatasetDetail <- function(json.object){
     res <- new("DatasetDetail",
                name         = json.object$name,
@@ -88,6 +108,20 @@ from.json.DatasetDetail <- function(json.object){
                protocols    = ifelse(is.null(json.object$protocols) || (length(json.object$protocols) == 0), c(MISSING_VALUE), lapply(json.object$protocols,function(x){
                    from.json.Protocol(x)
                    }
+               )),
+               keywords     = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0), c(MISSING_VALUE),json.object$keywords),
+               tissues      = ifelse(is.null(json.object$tissues) || (length(json.object$tissues) == 0), c(MISSING_VALUE),json.object$tissues),
+               diseases     = ifelse(is.null(json.object$diseases) || (length(json.object$diseases) == 0), c(MISSING_VALUE),json.object$diseases),
+               instruments  = ifelse(is.null(json.object$instruments) || (length(json.object$instruments) == 0), c(MISSING_VALUE),json.object$instruments),
+               experiment.type = ifelse(is.null(json.object$experimentType) || (length(json.object$experimentType) == 0), c(MISSING_VALUE),json.object$experimentType),
+               publication.ids  = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0), c(MISSING_VALUE),json.object$publicationIds),
+               organisms    = ifelse(is.null(json.object$organisms) || (length(json.object$organisms) == 0), c(MISSING_VALUE), lapply(json.object$organisms,function(x){
+                   from.json.Organism(x)
+               }
+               )),
+               lab.members    = ifelse(is.null(json.object$labMembers) || (length(json.object$labMembers) == 0), c(MISSING_VALUE), lapply(json.object$labMembers,function(x){
+                   from.json.LabMember(x)
+               }
                ))
     )
     return(res)

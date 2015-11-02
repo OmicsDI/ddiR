@@ -65,13 +65,9 @@ setClass("Organism",
          ),
 
          validity = function(object){
-             # check assay.accession
+             # check name
              if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
                  return("'name' must be a single valid string")
-
-             # check project.accession
-             if (!is.character(object@accession) || nchar(object@accession) == 0 || is.na(object@accession))
-                 return("'accession' must be a single valid string")
          }
 )
 
