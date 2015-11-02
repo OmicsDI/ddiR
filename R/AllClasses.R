@@ -147,3 +147,4 @@ setClass("Facet",
              facetValues = list()
          )
 )
+
