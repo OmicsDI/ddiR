@@ -19,6 +19,49 @@ setMethod("show",
           }
 )
 
+if (!isGeneric("dataset.id")) {
+    setGeneric("dataset.id", function(object) standardGeneric("dataset.id"))
+}
+
+#' Returns an acession id
+#'
+#' @param object a DatasetSummary
+#' @return the accession
+#' @author Yasset Perez-Riverol
+#' @export
+setMethod("dataset.id", "DatasetSummary", function(object) object@dataset.id)
+
+if (!isGeneric("database")) {
+    setGeneric("database", function(object) standardGeneric("database"))
+}
+
+#' Returns an acession id
+#'
+#' @param object a DatasetSummary
+#' @return database accession
+#' @author Yasset Perez-Riverol
+#' @export
+setMethod("database", "DatasetSummary", function(object) object@database)
+
+
+#' Returns an acession id
+#'
+#' @param object a DatasetDetail
+#' @return the accession
+#' @author Yasset Perez-Riverol
+#' @export
+setMethod("dataset.id", "DatasetDetail", function(object) object@dataset.id)
+
+
+#' Returns an acession id
+#'
+#' @param object a DatasetDetail
+#' @return database accession
+#' @author Yasset Perez-Riverol
+#' @export
+setMethod("database", "DatasetDetail", function(object) object@database)
+
+
 #' Returns a DatasetResult instance from a JSON string representation
 #'
 #' @param json_str The JSON object
@@ -31,19 +74,19 @@ setMethod("show",
 #' @importFrom rjson fromJSON
 #' @export
 from.json.DataSetResult <- function(json.object) {
+    localOrganisms <- c(MISSING_VALUE)
+    if(!((is.null(json.object$organisms) || (length(json.object$organisms)==0)))){
+        localOrganisms <- lapply(json.object$organisms,function (x) {from.json.Organism(x)})
+    }
     res <- new("DatasetResult",
                title = json.object$title,
                dataset.id = json.object$id,
                # database = json.object$source,
                description = json.object$description,
                publication.date = json.object$publicationDate,
-               keywords = ifelse(is.null(json.object$keywords)||(length(json.object$keywords)==0), c(MISSING_VALUE), json.object$keywords),
-               organisms = ifelse(is.null(json.object$organisms)||(length(json.object$organisms)==0), c(MISSING_VALUE), lapply(json.object$organisms,
-                                                                                                                               function (x) {
-                                                                                                                                   from.json.Organism(x)
-                                                                                                                                   }
-                                                                                                                               )
-                                  ),
+               keywords = ifelse(is.null(json.object$keywords)||(length(json.object$keywords)==0),
+                                 c(MISSING_VALUE), json.object$keywords),
+               organisms = localOrganisms,
                visit.count = json.object$visitCount
     )
     return (res)
@@ -58,8 +101,8 @@ from.json.DataSetResult <- function(json.object) {
 #'
 from.json.Organism <- function(json.object){
         res <- new ("Organism",
-                    name = json.object$name,
-                    accession = json.object$acc
+                    name = ifelse(is.null(json.object$name) || (length(json.object$name) == 0),MISSING_VALUE, json.object$name),
+                    accession = ifelse(is.null(json.object$acc) || (length(json.object$acc) == 0),MISSING_VALUE, json.object$acc)
                     )
         return(res)
     }
@@ -71,8 +114,8 @@ from.json.Organism <- function(json.object){
 #'
 from.json.Protocol <- function(json.object){
     res <- new("Protocol",
-               name  = json.object$name,
-               description = json.object$description
+               name  = ifelse(is.null(json.object$name) || (length(json.object$name) == 0),MISSING_VALUE, json.object$name),
+               description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),MISSING_VALUE, json.object$description),
     )
     return(res)
 }
