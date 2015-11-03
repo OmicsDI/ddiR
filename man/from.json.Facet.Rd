@@ -7,7 +7,7 @@
 from.json.Facet(json.object)
 }
 \arguments{
-\item{json.object}{}
+\item{json.object}{Facet json object}
 }
 \value{
 Facet

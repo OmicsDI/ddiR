@@ -7,7 +7,7 @@
 from.json.Protocol(json.object)
 }
 \arguments{
-\item{json.object}{}
+\item{json.object}{This json object contain the information of a protocol}
 }
 \value{
 Protocol Object

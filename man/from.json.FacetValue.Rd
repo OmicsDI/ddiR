@@ -7,10 +7,10 @@
 from.json.FacetValue(json.object)
 }
 \arguments{
-\item{json.object}{}
+\item{json.object}{This object is a facetValue json object}
 }
 \value{
-FacetValue
+FacetValue a Final class with the object
 }
 \description{
 This function converts a json FacetValue object to FaceTvalue

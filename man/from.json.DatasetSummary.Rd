@@ -7,7 +7,7 @@
 from.json.DatasetSummary(json.object)
 }
 \arguments{
-\item{json.object}{}
+\item{json.object}{DatasetSummary json Object}
 }
 \value{
 DatasetSummary

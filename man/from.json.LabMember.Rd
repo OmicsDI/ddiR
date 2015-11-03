@@ -7,7 +7,7 @@
 from.json.LabMember(json.object)
 }
 \arguments{
-\item{json.object}{object}
+\item{json.object}{This json object contains the information of a LabMember}
 }
 \value{
 LabMember

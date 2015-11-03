@@ -66,7 +66,7 @@ from.json.Organism <- function(json.object){
 
 #' from.json.Protocol This function converts a json Protocol object to a Protocol object
 #'
-#' @param json.object
+#' @param json.object This json object contain the information of a protocol
 #' @return Protocol Object
 #'
 from.json.Protocol <- function(json.object){
@@ -80,7 +80,7 @@ from.json.Protocol <- function(json.object){
 #' from.json.LabMember
 #'
 #' This function convert objects from json to LabMember
-#' @param json.object object
+#' @param json.object This json object contains the information of a LabMember
 #' @return LabMember
 #'
 from.json.LabMember <- function(json.object){
@@ -98,6 +98,27 @@ from.json.LabMember <- function(json.object){
 #'@return DatasetDetail
 #'
 from.json.DatasetDetail <- function(json.object){
+    localProtocols <- c(MISSING_VALUE)
+    if(!(is.null(json.object$protocols) || (length(json.object$protocols) == 0))){
+        localProtocols <- lapply(json.object$protocols,function(x){
+            from.json.Protocol(x)
+        }
+        )
+    }
+    localOrganisms <- c(MISSING_VALUE)
+    if(!(is.null(json.object$organisms) || (length(json.object$organisms) == 0))){
+        localOrganisms <- lapply(json.object$organisms,function(x){
+            from.json.Organism(x)
+        }
+        )
+    }
+    localLabMembers <- c(MISSING_VALUE)
+    if(!(is.null(json.object$labMembers) || (length(json.object$labMembers) == 0))){
+        localLabMembers <- lapply(json.object$labMembers,function(x){
+            from.json.LabMember(x)
+        }
+        )
+    }
     res <- new("DatasetDetail",
                name         = json.object$name,
                dataset.id   = json.object$id,
@@ -105,24 +126,21 @@ from.json.DatasetDetail <- function(json.object){
                database     = json.object$source,
                full.dataset.link  = json.object$full_dataset_link,
                publication.date   = json.object$publicationDate,
-               protocols    = ifelse(is.null(json.object$protocols) || (length(json.object$protocols) == 0), c(MISSING_VALUE), lapply(json.object$protocols,function(x){
-                   from.json.Protocol(x)
-                   }
-               )),
-               keywords     = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0), c(MISSING_VALUE),json.object$keywords),
-               tissues      = ifelse(is.null(json.object$tissues) || (length(json.object$tissues) == 0), c(MISSING_VALUE),json.object$tissues),
-               diseases     = ifelse(is.null(json.object$diseases) || (length(json.object$diseases) == 0), c(MISSING_VALUE),json.object$diseases),
-               instruments  = ifelse(is.null(json.object$instruments) || (length(json.object$instruments) == 0), c(MISSING_VALUE),json.object$instruments),
-               experiment.type = ifelse(is.null(json.object$experimentType) || (length(json.object$experimentType) == 0), c(MISSING_VALUE),json.object$experimentType),
-               publication.ids  = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0), c(MISSING_VALUE),json.object$publicationIds),
-               organisms    = ifelse(is.null(json.object$organisms) || (length(json.object$organisms) == 0), c(MISSING_VALUE), lapply(json.object$organisms,function(x){
-                   from.json.Organism(x)
-               }
-               )),
-               lab.members    = ifelse(is.null(json.object$labMembers) || (length(json.object$labMembers) == 0), c(MISSING_VALUE), lapply(json.object$labMembers,function(x){
-                   from.json.LabMember(x)
-               }
-               ))
+               protocols    = localProtocols,
+               keywords        = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
+                                        c(MISSING_VALUE),json.object$keywords),
+               tissues         = ifelse(is.null(json.object$tissues) || (length(json.object$tissues) == 0),
+                                        c(MISSING_VALUE),json.object$tissues),
+               diseases        = ifelse(is.null(json.object$diseases) || (length(json.object$diseases) == 0),
+                                        c(MISSING_VALUE),json.object$diseases),
+               instruments     = ifelse(is.null(json.object$instruments) || (length(json.object$instruments) == 0),
+                                        c(MISSING_VALUE),json.object$instruments),
+               experiment.type = ifelse(is.null(json.object$experimentType) || (length(json.object$experimentType) == 0),
+                                        c(MISSING_VALUE),json.object$experimentType),
+               publication.ids = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0),
+                                        c(MISSING_VALUE),json.object$publicationIds),
+               organisms       = localOrganisms,
+               lab.members     = localLabMembers
     )
     return(res)
 }
@@ -131,8 +149,8 @@ from.json.DatasetDetail <- function(json.object){
 #' from.json.FacetValue
 #'
 #' This function converts a json FacetValue object to FaceTvalue
-#' @param json.object
-#' @return FacetValue
+#' @param json.object This object is a facetValue json object
+#' @return FacetValue a Final class with the object
 #'
 from.json.FacetValue <- function(json.object){
     res <- new("FacetValue",
@@ -148,18 +166,20 @@ from.json.FacetValue <- function(json.object){
 #' from.json.Facet
 #'
 #' This function convert a from.json.Facet to a Facet
-#' @param json.object
+#' @param json.object Facet json object
 #' @return Facet
 #'
 from.json.Facet <- function(json.object){
+    localFacetValues <- c(MISSING_VALUE)
+    if (!(is.null(json.object$facetValues) || (length(json.object$facetValues) == 0))){
+        localFacetValues <- lapply(json.object$facetValues,function(x){
+            from.json.FacetValue(x)
+        })
+    }
     res <- new("Facet",
                facet.id    = json.object$id,
                total       = json.object$total,
-               facetValues = ifelse(is.null(json.object$facetValues) || (length(json.object$facetValues) == 0), c(MISSING_VALUE),
-                                    lapply(json.object$facetValues,function(x){
-                                        from.json.FacetValue(x)
-                                    })
-               ),
+               facetValues = localFacetValues,
                label = json.object$label
     )
     return(res)
@@ -169,10 +189,16 @@ from.json.Facet <- function(json.object){
 #'
 #' This function converts a json object to a DatasetSummary
 #'
-#' @param json.object
+#' @param json.object DatasetSummary json Object
 #' @return DatasetSummary
 #'
 from.json.DatasetSummary <- function(json.object){
+
+    localOrganisms <- c(MISSING_VALUE)
+    if (!(is.null(json.object$organisms) || (length(json.object$organisms) == 0))){
+           localOrganisms <- lapply(json.object$organisms,function(x){from.json.Organism(x)})
+    }
+
     res <- new("DatasetSummary",
                 dataset.id  = json.object$id,
                 description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),
@@ -181,12 +207,7 @@ from.json.DatasetSummary <- function(json.object){
                 keywords    = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
                                      c(MISSING_VALUE),json.object$keywords),
                 publication.date = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0), MISSING_VALUE, json.object$publicationDate),
-                organisms = ifelse(is.null(json.object$organisms) || (length(json.object$organisms) == 0), c(MISSING_VALUE),
-                                   lapply(json.object$organisms,function(x){
-                                       from.json.Organism(x)
-                                   }
-                                   )
-                ),
+                organisms = localOrganisms,
                 title   = ifelse(is.null(json.object$title) || (length(json.object$title) == 0),
                                  MISSING_VALUE, json.object$title),
                 visit.count = json.object$visitCount
@@ -197,25 +218,30 @@ from.json.DatasetSummary <- function(json.object){
 #' from.json.DatasetResults
 #'
 #' This function get information from DatasetResults
-#' @param json.object
+#' @param json.object DatasetResult json object
 #' @return DatasetResult
 #'
 from.json.DatasetResults <- function(json.object){
-    lolo <- lapply(json.object$facets,function(x){from.json.Facet(x)})
-    res <- new("DatasetResult",
+    localFacets <- c(MISSING_VALUE)
+    if (!(is.null(json.object$facets) || (length(json.object$facets) == 0))) {
+        localFacets <- lapply(json.object$facets,function(x){
+            from.json.Facet(x)
+        }
+        )
+    }
+    localDatasets <- c(MISSING_VALUE)
+    if (!(is.null(json.object$datasets) || (length(json.object$datasets) == 0))) {
+        localDatasets <- lapply(json.object$datasets,function(x){
+            from.json.DatasetSummary(x)
+        }
+        )
+    }
+
+    res  <- new("DatasetResult",
                count  = json.object$count,
-               facets = ifelse(is.null(json.object$facets) || (length(json.object$facets) == 0),
-                               c(MISSING_VALUE), lapply(json.object$facets,function(x){
-                                                                from.json.Facet(x)
-                                                           }
-                                      )
-                              ),
-               datasets = ifelse(is.null(json.object$datasets) || (length(json.object$datasets) == 0), c(MISSING_VALUE),
-                                 lapply(json.object$datasets,function(x){
-                                     from.json.DatasetSummary(x)
-               }
-               ))
-              )
+               facets = localFacets,
+               datasets = localDatasets
+               )
     return(res)
 }
 

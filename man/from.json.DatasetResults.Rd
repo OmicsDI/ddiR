@@ -7,7 +7,7 @@
 from.json.DatasetResults(json.object)
 }
 \arguments{
-\item{json.object}{}
+\item{json.object}{DatasetResult json object}
 }
 \value{
 DatasetResult
