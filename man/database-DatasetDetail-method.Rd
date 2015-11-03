@@ -8,7 +8,7 @@
 \S4method{database}{DatasetDetail}(object)
 }
 \arguments{
-\item{object}{a DatasetSummary}
+\item{object}{a DatasetDetail}
 }
 \value{
 database accession

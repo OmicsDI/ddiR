@@ -115,7 +115,7 @@ from.json.Organism <- function(json.object){
 from.json.Protocol <- function(json.object){
     res <- new("Protocol",
                name  = ifelse(is.null(json.object$name) || (length(json.object$name) == 0),MISSING_VALUE, json.object$name),
-               description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),MISSING_VALUE, json.object$description),
+               description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),MISSING_VALUE, json.object$description)
     )
     return(res)
 }
