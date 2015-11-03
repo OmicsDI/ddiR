@@ -201,10 +201,11 @@ from.json.DatasetSummary <- function(json.object){
 #' @return DatasetResult
 #'
 from.json.DatasetResults <- function(json.object){
+    lolo <- lapply(json.object$facets,function(x){from.json.Facet(x)})
     res <- new("DatasetResult",
                count  = json.object$count,
-               facets = ifelse(is.null(json.object$facets) || (length(json.object$facets) == 0), c(MISSING_VALUE),
-                                lapply(json.object$facets,function(x){
+               facets = ifelse(is.null(json.object$facets) || (length(json.object$facets) == 0),
+                               c(MISSING_VALUE), lapply(json.object$facets,function(x){
                                                                 from.json.Facet(x)
                                                            }
                                       )
