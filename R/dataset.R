@@ -105,7 +105,7 @@ from.json.Organism <- function(json.object){
                     accession = ifelse(is.null(json.object$acc) || (length(json.object$acc) == 0),MISSING_VALUE, json.object$acc)
                     )
         return(res)
-    }
+}
 
 #' from.json.Protocol This function converts a json Protocol object to a Protocol object
 #'
@@ -162,12 +162,18 @@ from.json.DatasetDetail <- function(json.object){
         }
         )
     }
+
+    fullLink <- c(MISSING_VALUE)
+    if(!(is.null(json.object$full_dataset_link) || (length(json.object$full_dataset_link) == 0))){
+        fullLink <- json.object$full_dataset_link
+    }
+
+
     res <- new("DatasetDetail",
                name         = json.object$name,
                dataset.id   = json.object$id,
                description  = json.object$description,
                database     = json.object$source,
-               full.dataset.link  = json.object$full_dataset_link,
                publication.date   = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0),
                                            c(MISSING_VALUE),json.object$publicationDate),
                protocols    = localProtocols,
@@ -184,7 +190,8 @@ from.json.DatasetDetail <- function(json.object){
                publication.ids = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0),
                                         c(MISSING_VALUE),json.object$publicationIds),
                organisms       = localOrganisms,
-               lab.members     = localLabMembers
+               lab.members     = localLabMembers,
+               full.dataset.link = fullLink
     )
     return(res)
 }
