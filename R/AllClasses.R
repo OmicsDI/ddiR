@@ -16,7 +16,9 @@ setClass("DatasetSummary",
       publication.date = "character",
       organisms = "vector",
       title   = "character",
-      visit.count = "numeric"),
+      visit.count = "numeric",
+      score = "character",
+      omics.type = "character"),
 
   prototype = list(
     dataset.id = MISSING_VALUE,
@@ -26,7 +28,9 @@ setClass("DatasetSummary",
     publication.date = MISSING_VALUE,
     title = MISSING_VALUE,
     organisms = MISSING_VALUE,
-    visit.count = 0
+    visit.count = 0,
+    score = MISSING_VALUE,
+    omics.type = MISSING_VALUE
   ),
 
   validity = function(object) {

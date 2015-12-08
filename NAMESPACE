@@ -2,6 +2,7 @@
 
 export(from.json.DataSetResult)
 export(get.DatasetDetail)
+export(get.MetadataSimilars)
 export(search.DatasetsSummary)
 exportClasses(DatasetDetail)
 exportClasses(DatasetResult)

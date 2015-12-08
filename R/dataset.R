@@ -250,6 +250,7 @@ from.json.DatasetSummary <- function(json.object){
            localOrganisms <- lapply(json.object$organisms,function(x){from.json.Organism(x)})
     }
 
+
     res <- new("DatasetSummary",
                 dataset.id  = json.object$id,
                 description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),
@@ -261,7 +262,9 @@ from.json.DatasetSummary <- function(json.object){
                 organisms = localOrganisms,
                 title   = ifelse(is.null(json.object$title) || (length(json.object$title) == 0),
                                  MISSING_VALUE, json.object$title),
-                visit.count = json.object$visitCount
+                visit.count = json.object$visitCount,
+                score = ifelse(is.null(json.object$score), MISSING_VALUE, json.object$score),
+                omics.type  = ifelse(is.null(json.object$omicsType), MISSING_VALUE, json.object$omicsType)
                )
     return(res)
 }
@@ -339,6 +342,22 @@ get.DatasetDetail <- function(accession, database) {
 search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount = 20){
     json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount))
     datasetResults <- from.json.DatasetResults(json.datasetSummary)
+    return(datasetResults)
+}
+
+
+#' get.MetadataSimilars
+#'
+#' Dataset Similars by Metadata
+#'
+#' @param database
+#' @param accession
+#' @return DatasetResults
+#' @export
+#'
+get.MetadataSimilars <- function(database = "", accession = ""){
+    json.dasetSimilars <- fromJSON(file = paste0(ddi_url, "/dataset/getSimilar", "?acc=", accession, "&database=", database))
+    datasetResults <- from.json.DatasetResults(json.dasetSimilars)
     return(datasetResults)
 }
 
