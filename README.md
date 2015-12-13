@@ -22,6 +22,8 @@ Then we just call
     library(prideR)
 ### Examples     
 
+Retrieve all the metadata similarity scores from OmicsDI:
+
 ```R
 library(ddiR)
 datasets <- search.DatasetsSummary(query = "*:*")
