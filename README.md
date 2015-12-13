@@ -20,6 +20,28 @@ Then we just call
 
     install_github("BD2K-DDI/ddiR")
     library(prideR)
+### Examples     
+
+Retrieve all the metadata similarity scores from OmicsDI:
+
+```R
+library(ddiR)
+datasets <- search.DatasetsSummary(query = "*:*")
+sink("outfile.txt")
+for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
+    datasets <- search.DatasetsSummary(query = "*:*", start = datasetCount, size = 100)
+    for(dataset in datasets@datasets){
+        DatasetDetail = get.DatasetDetail(accession = dataset@dataset.id, database = dataset@database)
+        Similar = get.MetadataSimilars(accession = dataset@dataset.id, database = dataset@database)
+        rank = 0
+        for(similarDataset in Similar@datasets){
+            print(paste(dataset@dataset.id, similarDataset@dataset.id, similarDataset@score, dataset@omics.type, rank))
+            rank = rank + 1
+        }
+    }
+}
+sink()
+```
 
 ### Examples     
 
