@@ -23,6 +23,31 @@ Then we just call
 
 ### Examples  
 
+This exmaple shows how retrieve all the metadata similarity scores by using the R-package ddiR. 
+
+```R
+
+library(ddiR)
+datasets <- search.DatasetsSummary(query = "*:*")
+i  = 0
+sink("outfile.txt")
+for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
+
+    datasets <- search.DatasetsSummary(query = "*:*", start = datasetCount, size = 100)
+
+    for(dataset in datasets@datasets){
+            DatasetDetail = get.DatasetDetail(accession = dataset@dataset.id, database = dataset@database)
+            Similar = get.MetadataSimilars(accession = dataset@dataset.id, database = dataset@database)
+            rank = 0
+            for(similarDataset in Similar@datasets){
+                print(paste(dataset@dataset.id, similarDataset@dataset.id, similarDataset@score, dataset@omics.type, rank))
+                rank = rank + 1
+            }
+    }
+}
+sink()
+
+```
 #### Omics Discovery Index  
 
 Get project `PXD000001` summary:  
