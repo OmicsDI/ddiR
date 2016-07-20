@@ -16,7 +16,8 @@ setClass("DatasetSummary",
       publication.date = "character",
       organisms = "vector",
       title   = "character",
-      visit.count = "numeric"),
+      visit.count = "numeric", 
+      omicsType   = "vector"),
 
   prototype = list(
     dataset.id = MISSING_VALUE,
@@ -26,7 +27,8 @@ setClass("DatasetSummary",
     publication.date = MISSING_VALUE,
     title = MISSING_VALUE,
     organisms = MISSING_VALUE,
-    visit.count = 0
+    visit.count = 0,
+    omicsType   = MISSING_VALUE
   ),
 
   validity = function(object) {
@@ -169,7 +171,9 @@ setClass("DatasetDetail",
              publication.date = "character",
              publication.ids  = "vector",
              organisms        = "vector",
-             lab.members      = "vector"
+             lab.members      = "vector",
+             omicsType        = "vector",
+             similars         = "vector"
              ),
          prototype = list(
              name = MISSING_VALUE,
@@ -186,7 +190,9 @@ setClass("DatasetDetail",
              publication.date = MISSING_VALUE,
              publication.ids  = list(MISSING_VALUE),
              organisms        = list(MISSING_VALUE),
-             lab.members      = list(MISSING_VALUE)
+             lab.members      = list(MISSING_VALUE),
+             omicsType        = list(MISSING_VALUE),
+             similars         = list(MISSING_VALUE)
              ),
          validity = function(object){
              # name
