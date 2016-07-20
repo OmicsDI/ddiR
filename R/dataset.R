@@ -309,9 +309,12 @@ setMethod("show",
 #' @importFrom rjson fromJSON
 #' @export
 get.DatasetDetail <- function(accession, database) {
-    json.datsetDetail <- fromJSON(file = paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method = "C")
-    datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
-    return(datasetDetail)
+    json.datsetDetail <- try(fromJSON(file = paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method = "C"), silent = false)
+    if(class(json.datsetDetail) != "try-error"){
+      datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
+      return(datasetDetail)
+    }
+    return (NULL);
 }
 
 #' search.DatasetsSummary
