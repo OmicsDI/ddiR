@@ -1,4 +1,4 @@
-# This script search for all datasets nad plot them by repository. 
+# This script search for all datasets and plot them by repository. 
 library(ddiR)
 
 datasets <- search.DatasetsSummary(query = "*:*")
