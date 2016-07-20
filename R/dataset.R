@@ -1,6 +1,4 @@
-ddi_url     <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws"
-ddi_url_dev <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws"
-
+ddi_url     <- "http://www.omicsdi.org/ws"
 MISSING_VALUE <- "Not available"
 
 setMethod("show",
