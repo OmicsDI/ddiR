@@ -47,5 +47,6 @@ sink()
 ### About us   
 
 Find out about us in our GitHub profiles:  
-[Yasset Perez-Riverol](https://github.com/ypriverol)  
 
+[Yasset Perez-Riverol](https://github.com/ypriverol)  
+[Ariana Barbera Betancourt](http://github.com/abb44)
