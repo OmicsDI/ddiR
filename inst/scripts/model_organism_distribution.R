@@ -1,5 +1,7 @@
 library(ddiR)
 library(myTAI)
+library(ggplot2)
+library(reshape)
 
 model_organism <- read.table(file="inst/data/model_organism.tsv", sep = "\t", header = TRUE)
 
@@ -89,3 +91,32 @@ for(datIndex in 1:length(datasetList)){
     print(currentDataset@dataset.id)
   }
 }
+
+x = c("Band 1", "Band 2", "Band 3")
+y1 = c("1","2","3")
+y2 = c("2","3","4")
+
+to_plot <- data.frame(x=x,y1=y1,y2=y2)
+melted<-melt(to_plot, id="x")
+
+print(ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", alpha=.3))
+
+database <- as.vector(resultDatasetFrame$Database)
+type <- as.vector(resultDatasetFrame$`Model Organism`)
+
+to_plot <- data.frame(database=database,type=type)
+
+
+modelPlot <- ggplot(aes(database, fill=type), data=to_plot) + 
+  geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
+  scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) + 
+  labs(title = "Number of Omics Datasests by Respoitory and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Repositories/Databases") +
+  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
+  scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "GPMDB", "MassIVE", "Metabolights", "MetabolomeExpress", "MetabolomicsWorkbench", "PeptideAtlas", "PRIDE")) +
+  theme(axis.ticks = element_blank(), 
+        axis.text.x = element_blank(), panel.background = element_blank())
+
+
+png(file = "inst/imgs/model-organism-plot.png", width = 800, height = 600)
+plot(modelPlot)
+dev.off()
