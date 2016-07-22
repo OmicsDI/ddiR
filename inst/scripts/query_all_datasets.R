@@ -19,6 +19,7 @@ for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
 }
 
 save(d, file="inst/data/datasets-d.RData")
+save(datasetList, file="inst/data/datasets-list.RData")
 
 plot <- ggplot(d, aes(factor(d$DatasetDetail.database), fill = factor(d$DatasetDetail.database))) +
   geom_bar() + scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) + labs(title = "Number of Omics Datasests by Respoitory", x = "Repositories/Databases", y = "Number of Datasests (sqrt scale)") +
@@ -29,5 +30,7 @@ plot <- ggplot(d, aes(factor(d$DatasetDetail.database), fill = factor(d$DatasetD
 png(file = "inst/imgs/datasets-by-repository.png", width = 800, height = 600)
 plot(plot)
 dev.off()
+
+
 
 
