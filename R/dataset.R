@@ -165,7 +165,7 @@ from.json.DatasetDetail <- function(json.object){
                dataset.id   = json.object$id,
                description  = json.object$description,
                database     = json.object$source,
-               full.dataset.link  = json.object$full_dataset_link,
+               full.dataset.link  = ifelse(is.null(json.object$full_dataset_link),MISSING_VALUE,json.object$full_dataset_link), 
                publication.date   = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0),
                                            c(MISSING_VALUE),json.object$publicationDate),
                protocols    = localProtocols,
