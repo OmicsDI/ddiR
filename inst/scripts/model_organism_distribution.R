@@ -92,14 +92,7 @@ for(datIndex in 1:length(datasetList)){
   }
 }
 
-x = c("Band 1", "Band 2", "Band 3")
-y1 = c("1","2","3")
-y2 = c("2","3","4")
-
-to_plot <- data.frame(x=x,y1=y1,y2=y2)
-melted<-melt(to_plot, id="x")
-
-print(ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", alpha=.3))
+#Plot of database by Model Organism
 
 database <- as.vector(resultDatasetFrame$Database)
 type <- as.vector(resultDatasetFrame$`Model Organism`)
@@ -110,7 +103,7 @@ to_plot <- data.frame(database=database,type=type)
 modelPlot <- ggplot(aes(database, fill=type), data=to_plot) + 
   geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
   scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) + 
-  labs(title = "Number of Omics Datasests by Respoitory and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Repositories/Databases") +
+  labs(title = "Number of Datasests by Respoitory and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Repositories/Databases") +
   scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
   scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "GPMDB", "MassIVE", "Metabolights", "MetabolomeExpress", "MetabolomicsWorkbench", "PeptideAtlas", "PRIDE")) +
   theme(axis.ticks = element_blank(), 
@@ -120,3 +113,28 @@ modelPlot <- ggplot(aes(database, fill=type), data=to_plot) +
 png(file = "inst/imgs/model-organism-plot.png", width = 800, height = 600)
 plot(modelPlot)
 dev.off()
+
+#Plot of omicsType by Model Organism
+
+omicsType <- as.vector(resultDatasetFrame$omicsType)
+omicsType <- gsub("transcriptomics", "Transcriptomics", omicsType)
+typeModel <- as.vector(resultDatasetFrame$`Model Organism`)
+
+omicsTypeToPlot <- data.frame(database=omicsType,type=typeModel)
+
+
+omicsTypeModelPlot <- ggplot(aes(database, fill=type), data=omicsTypeToPlot) + 
+  geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
+  scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) + 
+  labs(title = "Number of Datasests by OmicsType and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Omics Type") +
+  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
+  scale_x_discrete(labels = c("Genomics", "Metabolomics", "Not Annotated", "Proteomics", "Transcriptomics")) +
+  theme(axis.ticks = element_blank(), 
+        axis.text.x = element_blank(), panel.background = element_blank())
+
+
+png(file = "inst/imgs/model-organism-omicsType-plot.png", width = 800, height = 600)
+plot(omicsTypeModelPlot)
+dev.off()
+
+#Plot of omicsType by Model Organism
