@@ -102,12 +102,11 @@ to_plot <- data.frame(database=database,type=type)
 
 modelPlot <- ggplot(aes(database, fill=type), data=to_plot) + 
   geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
-  scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) + 
+  scale_y_sqrt(breaks = c(100, 1000, 2000, 4000, 10000, 20000, 30000, 65000)) + 
   labs(title = "Number of Datasests by Respoitory and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Repositories/Databases") +
   scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
   scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "GPMDB", "MassIVE", "Metabolights", "MetabolomeExpress", "MetabolomicsWorkbench", "PeptideAtlas", "PRIDE")) +
-  theme(axis.ticks = element_blank(), 
-        axis.text.x = element_blank(), panel.background = element_blank())
+  theme(panel.background = element_blank())
 
 
 png(file = "inst/imgs/model-organism-plot.png", width = 800, height = 600)
@@ -125,12 +124,11 @@ omicsTypeToPlot <- data.frame(database=omicsType,type=typeModel)
 
 omicsTypeModelPlot <- ggplot(aes(database, fill=type), data=omicsTypeToPlot) + 
   geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
-  scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) + 
+  scale_y_sqrt(breaks = c(100, 1000, 2000, 4000, 10000, 20000, 30000, 65000)) + 
   labs(title = "Number of Datasests by OmicsType and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Omics Type") +
   scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
   scale_x_discrete(labels = c("Genomics", "Metabolomics", "Not Annotated", "Proteomics", "Transcriptomics")) +
-  theme(axis.ticks = element_blank(), 
-        axis.text.x = element_blank(), panel.background = element_blank())
+  theme(panel.background = element_blank())
 
 
 png(file = "inst/imgs/model-organism-omicsType-plot.png", width = 800, height = 600)
