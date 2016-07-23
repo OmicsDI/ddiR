@@ -160,6 +160,7 @@ from.json.DatasetDetail <- function(json.object){
         }
         )
     }
+    
     res <- new("DatasetDetail",
                name         = json.object$name,
                dataset.id   = json.object$id,
@@ -182,6 +183,9 @@ from.json.DatasetDetail <- function(json.object){
                publication.ids = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0),
                                         c(MISSING_VALUE),json.object$publicationIds),
                organisms       = localOrganisms,
+               omicsType      = ifelse(is.null(json.object$omics_type) || (length(json.object$omics_type) == 0),
+                                        c(MISSING_VALUE),json.object$omics_type),
+               
                lab.members     = localLabMembers
     )
     return(res)
