@@ -135,4 +135,3 @@ png(file = "inst/imgs/model-organism-omicsType-plot.png", width = 800, height = 
 plot(omicsTypeModelPlot)
 dev.off()
 
-#Plot of omicsType by Model Organism
