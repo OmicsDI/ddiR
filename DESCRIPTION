@@ -3,7 +3,7 @@ Type: Package
 Title: ddiR: The Omics Discovery Index R package
 Version: 0.99.0
 Date: 2015-11-01
-Authors@R: c(person("Yasset", "Perez-Riverol", role=c("aut", "cre"),email="yperez@ebi.ac.uk"))   
+Authors@R: c(person("Yasset", "Perez-Riverol", role=c("aut", "cre"),email="yperez@ebi.ac.uk"))
 Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <yperez@ebi.ac.uk>
 Depends:
@@ -15,9 +15,11 @@ Imports:
 Suggests:
     testthat,
     knitr
-Description: An R package to programatically access the Omics Discovery Index Data.
+Description: An R package to programatically access the Omics Discovery Index
+    Data.
 License: GPL-3
 Encoding: UTF-8
 URL: https://github.com/BD2K-DDI/ddiR/
 BugReports: https://github.com/BD2K-DDI/ddiR/issues
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1
