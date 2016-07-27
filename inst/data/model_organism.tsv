@@ -1,0 +1,20 @@
+model	taxonomyID	name
+Prokaryote	562	Escherichia coli
+Eukaryote unicellular	44689	Dictyostelium discoideum
+Eukaryote unicellular	4932	Saccharomyces cerevisiae
+Eukaryote unicellular	4896	Schizosaccharomyces pombe
+Eukaryote unicellular	3055	Chlamydomonas reinhardtii
+Eukaryote unicellular	5911	Tetrahymena thermophila
+Eukaryote unicellular	2903	Emiliania huxleyi
+Eukaryote multicellular	6239	Caenorhabditis elegans
+Eukaryote multicellular	7227	Drosophila melanogaster
+Eukaryote multicellular	3702	Arabidopsis thaliana
+Eukaryote multicellular	3218	Physcomitrella patens
+Vertebrate	7955	Danio rerio
+Vertebrate	8078	Fundulus heteroclitus
+Vertebrate	28779	Nothobranchius
+Vertebrate	28377	Anolis carolinensis
+Vertebrate	10090	Mus musculus
+Vertebrate	8355	Xenopus laevis
+Vertebrate	10114	Rattus
+Vertebrate	9030	Gallus 

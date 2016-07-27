@@ -1,7 +1,7 @@
 [ddiR](https://github.com/BD2K-DDI/ddiR)
 ======
 
-An [R package](https://github.com/BD2K-DDI/ddiR) to obtain data from the Omics Discovery Index ([OmicsDI](http://wwwdev.ebi.ac.uk/Tools/ddi/). It uses its RESTful Web Services at [OmicsDI WS](http://wwwdev.ebi.ac.uk/Tools/ddi/ws/) for that purpose.  
+An [R package](https://github.com/BD2K-DDI/ddiR) to obtain data from the Omics Discovery Index ([OmicsDI](http://www.omicsdi.org). It uses its RESTful Web Services at [OmicsDI WS](http://www.omicsdi.org/ws/) for that purpose.  
 
 Currently, the following domain entities are supported:  
 
@@ -20,6 +20,7 @@ Then we just call
 
     install_github("BD2K-DDI/ddiR")
     library(prideR)
+
 ### Examples     
 
 Retrieve all the metadata similarity scores from OmicsDI:
@@ -66,5 +67,6 @@ sink()
 ### About us   
 
 Find out about us in our GitHub profiles:  
-[Yasset Perez-Riverol](https://github.com/ypriverol)  
 
+[Yasset Perez-Riverol](https://github.com/ypriverol)  
+[Ariana Barbera Betancourt](http://github.com/abb44)

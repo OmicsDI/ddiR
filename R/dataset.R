@@ -1,6 +1,4 @@
-ddi_url     <- "http://wwwdev.ebi.ac.uk/Tools/omicsdi/ws"
-ddi_url_dev <- "http://wwwdev.ebi.ac.uk/Tools/omicsdi/ws"
-
+ddi_url     <- "http://www.omicsdi.org/ws"
 MISSING_VALUE <- "Not available"
 
 setMethod("show",
@@ -162,12 +160,13 @@ from.json.DatasetDetail <- function(json.object){
         }
         )
     }
+
     res <- new("DatasetDetail",
                name         = json.object$name,
                dataset.id   = json.object$id,
                description  = json.object$description,
                database     = json.object$source,
-               full.dataset.link  = json.object$full_dataset_link,
+               full.dataset.link  = ifelse(is.null(json.object$full_dataset_link),MISSING_VALUE,json.object$full_dataset_link),
                publication.date   = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0),
                                            c(MISSING_VALUE),json.object$publicationDate),
                protocols    = localProtocols,
@@ -184,6 +183,9 @@ from.json.DatasetDetail <- function(json.object){
                publication.ids = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0),
                                         c(MISSING_VALUE),json.object$publicationIds),
                organisms       = localOrganisms,
+               omicsType      = ifelse(is.null(json.object$omics_type) || (length(json.object$omics_type) == 0),
+                                        c(MISSING_VALUE),json.object$omics_type),
+
                lab.members     = localLabMembers
     )
     return(res)
@@ -311,9 +313,13 @@ setMethod("show",
 #' @importFrom rjson fromJSON
 #' @export
 get.DatasetDetail <- function(accession, database) {
+  datasetDetail <- tryCatch({
     json.datsetDetail <- fromJSON(file = paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method = "C")
-    datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
-    return(datasetDetail)
+    return (from.json.DatasetDetail(json.datsetDetail))
+  }, error = function(err) {
+     print(paste("MY_ERROR:  ",err))
+     return(NULL)
+  });
 }
 
 #' search.DatasetsSummary
