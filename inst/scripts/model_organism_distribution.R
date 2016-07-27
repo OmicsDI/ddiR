@@ -56,7 +56,7 @@ for(datIndex in 1:length(datasetList)){
     }else{
       for(taxonomyId in 1:length(currentDataset@organisms)){
         currentTaxonomy <- currentDataset@organisms[[taxonomyId]]
-        if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && (nrow(modelOrganismFrame[grep(as.character(currentTaxonomy@accession),modelOrganismFrame['childtaxa_id']),]) > 0)){
+        if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && currentTaxonomy@accession != "9606" && (nrow(modelOrganismFrame[grep(as.character(currentTaxonomy@accession),modelOrganismFrame['childtaxa_id']),]) > 0)){
           for(omicsIndex in 1: length(currentDataset@omicsType)){
             
             resultDatasetFrame[nrow(resultDatasetFrame)+1,] <- c(currentDataset@dataset.id,
@@ -66,6 +66,16 @@ for(datIndex in 1:length(datasetList)){
                                     currentTaxonomy@name,
                                     "Model Organism");
           }   
+        }else if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && currentTaxonomy@accession == "9606"){
+          for(omicsIndex in 1: length(currentDataset@omicsType)){
+            
+            resultDatasetFrame[nrow(resultDatasetFrame)+1,] <- c(currentDataset@dataset.id,
+                                                                 currentDataset@database,
+                                                                 currentDataset@omicsType[[omicsIndex]],
+                                                                 currentTaxonomy@accession,
+                                                                 currentTaxonomy@name,
+                                                                 "Human");
+          }
         }else if(is.null(currentTaxonomy) || is.null(currentTaxonomy@accession)){
           for(omicsIndex in 1: length(currentDataset@omicsType)){
             
@@ -99,13 +109,15 @@ type <- as.vector(resultDatasetFrame$`Model Organism`)
 
 to_plot <- data.frame(database=database,type=type)
 
+to_plot <- to_plot[to_plot$type != "NA", ]
+
 
 modelPlot <- ggplot(aes(database, fill=type), data=to_plot) + 
   geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
   scale_y_sqrt(breaks = c(100, 1000, 2000, 4000, 10000, 20000, 30000, 65000)) + 
   labs(title = "Number of Datasests by Respoitory and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Repositories/Databases") +
-  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
-  scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "GPMDB", "MassIVE", "Metabolights", "MetabolomeExpress", "MetabolomicsWorkbench", "PeptideAtlas", "PRIDE")) +
+  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Human", "Model Organism", "Non Model Organism")) + 
+  scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "MassIVE", "Metabolomics Workbench", "PeptideAtlas", "PRIDE")) +
   theme(panel.background = element_blank())
 
 
@@ -121,13 +133,16 @@ typeModel <- as.vector(resultDatasetFrame$`Model Organism`)
 
 omicsTypeToPlot <- data.frame(database=omicsType,type=typeModel)
 
+omicsTypeToPlot <- omicsTypeToPlot[omicsTypeToPlot$type != "NA", ]
+omicsTypeToPlot <- omicsTypeToPlot[omicsTypeToPlot$database != "Not available", ]
+
 
 omicsTypeModelPlot <- ggplot(aes(database, fill=type), data=omicsTypeToPlot) + 
   geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
   scale_y_sqrt(breaks = c(100, 1000, 2000, 4000, 10000, 20000, 30000, 65000)) + 
   labs(title = "Number of Datasests by OmicsType and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Omics Type") +
-  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) + 
-  scale_x_discrete(labels = c("Genomics", "Metabolomics", "Not Annotated", "Proteomics", "Transcriptomics")) +
+  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Human", "Model Organism", "Non Model Organism")) + 
+  scale_x_discrete(labels = c("Genomics", "Metabolomics", "Proteomics", "Transcriptomics")) +
   theme(panel.background = element_blank())
 
 
