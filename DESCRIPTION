@@ -9,9 +9,9 @@ Maintainer: Yasset Perez-Riverol <yperez@ebi.ac.uk>
 Depends:
     R (>= 3.0.0),
     methods,
-    rjson
+    RJSONIO
 Imports:
-    rjson
+    RJSONIO
 Suggests:
     testthat,
     knitr

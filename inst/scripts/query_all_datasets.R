@@ -3,7 +3,14 @@ library(ddiR)
 library(ggplot2)
 
 datasets <- search.DatasetsSummary(query = "*:*")
-d = NULL
+d <- data.frame(ID = character(),
+               Database = character(),
+               stringsAsFactors=FALSE)
+
+colnames(d) <- c("ID", "Database")
+
+unclass(d)
+
 index <- 1
 datasetList <- vector("list", datasets@count)
 for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
@@ -11,7 +18,8 @@ for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
   for(dataset in datasets@datasets){
     DatasetDetail = get.DatasetDetail(accession = dataset@dataset.id, database = dataset@database)
     if(!is.null(DatasetDetail)){
-      d = rbind(d, data.frame(DatasetDetail@dataset.id, DatasetDetail@database))
+      d[nrow(d)+1, ] <- c(as.character(DatasetDetail@dataset.id), as.character(DatasetDetail@database))
+      print(typeof(d))
       datasetList[[index]] <- DatasetDetail
       index <- index + 1
     }

@@ -90,6 +90,7 @@ from.json.DataSetResult <- function(json.object) {
     return (res)
 }
 
+
 #' from.json.Organism
 #'
 #' This function converts an Organism json object to Organism
@@ -103,7 +104,25 @@ from.json.Organism <- function(json.object){
                     accession = ifelse(is.null(json.object$acc) || (length(json.object$acc) == 0),MISSING_VALUE, json.object$acc)
                     )
         return(res)
-    }
+}
+
+#' from.json.Organism
+#'
+#' This function converts an Organism json object to Organism
+#'
+#' @param json.object
+#' @return Data frame
+#' @export
+#'  
+setMethod("as.data.frame", "Organism",
+          function(object, row.names=NULL, optional=FALSE, ...){
+                  df <- data.frame(accession = character(), name = character())
+                  colnames(df) <- c("accession", "name")
+                  df <- rbind(df, c(object@accession, object@name))
+                  df 
+          }
+        )
+
 
 #' from.json.Protocol This function converts a json Protocol object to a Protocol object
 #'
@@ -139,6 +158,7 @@ from.json.LabMember <- function(json.object){
 #'@return DatasetDetail
 #'
 from.json.DatasetDetail <- function(json.object){
+  
     localProtocols <- c(MISSING_VALUE)
     if(!(is.null(json.object$protocols) || (length(json.object$protocols) == 0))){
         localProtocols <- lapply(json.object$protocols,function(x){
@@ -161,31 +181,59 @@ from.json.DatasetDetail <- function(json.object){
         )
     }
     
+    localTissues <- list(MISSING_VALUE)
+    if(!(is.null(json.object$tissues) || (length(json.object$tissues) == 0))){
+      localTissues <- json.object$tissues 
+    }
+    
+    localExperimentType <- list(MISSING_VALUE)
+    if(!(is.null(json.object$experimentType))){
+      localExperimentType <- object$experimentType
+    }
+    
+    localInstruments <- list(MISSING_VALUE)
+    if (!(is.null(json.object$instruments) || (length(json.object$instruments) == 0))){
+      localInstruments <- json.object$instruments
+    }
+    
+    localDiseases  <- list(MISSING_VALUE)
+    if( !(is.null(json.object$diseases) || (length(json.object$diseases) == 0))){
+      localDiseases <- json.object$diseases;
+    }
+    
+    localKeywords <- list(MISSING_VALUE)
+    if(!(is.null(json.object$keywords) || (length(json.object$keywords) == 0))){
+      localKeywords <- json.object$keywords
+    }
+    
+    localOmicsType <- list(MISSING_VALUE)
+    
+    if( !(is.null(json.object$omics_type) || (length(json.object$omics_type) == 0))){
+      localOmicsType <- json.object$omics_type;
+    }
+    
+    localPublicationIDs = list(MISSING_VALUE)
+    if(!(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0))){
+      localPublicationIDs <- json.object$publicationIds;
+    }
+    
     res <- new("DatasetDetail",
-               name         = json.object$name,
-               dataset.id   = json.object$id,
-               description  = json.object$description,
-               database     = json.object$source,
+               name            = json.object$name,
+               dataset.id      = json.object$id,
+               description     = json.object$description,
+               database        = json.object$source,
                full.dataset.link  = ifelse(is.null(json.object$full_dataset_link),MISSING_VALUE,json.object$full_dataset_link), 
                publication.date   = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0),
                                            c(MISSING_VALUE),json.object$publicationDate),
-               protocols    = localProtocols,
-               keywords        = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
-                                        c(MISSING_VALUE),json.object$keywords),
-               tissues         = ifelse(is.null(json.object$tissues) || (length(json.object$tissues) == 0),
-                                        c(MISSING_VALUE),json.object$tissues),
-               diseases        = ifelse(is.null(json.object$diseases) || (length(json.object$diseases) == 0),
-                                        c(MISSING_VALUE),json.object$diseases),
-               instruments     = ifelse(is.null(json.object$instruments) || (length(json.object$instruments) == 0),
-                                        c(MISSING_VALUE),json.object$instruments),
-               experiment.type = ifelse(is.null(json.object$experimentType) || (length(json.object$experimentType) == 0),
-                                        c(MISSING_VALUE),json.object$experimentType),
-               publication.ids = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0),
-                                        c(MISSING_VALUE),json.object$publicationIds),
+               protocols       = localProtocols,
+               keywords        = localKeywords,
+               tissues         = localTissues,
+               diseases        = localDiseases,
+               instruments     = localInstruments, 
+               experiment.type = localExperimentType,
+               publication.ids = localPublicationIDs,
                organisms       = localOrganisms,
-               omicsType      = ifelse(is.null(json.object$omics_type) || (length(json.object$omics_type) == 0),
-                                        c(MISSING_VALUE),json.object$omics_type),
-               
+               omicsType       = localOmicsType,
                lab.members     = localLabMembers
     )
     return(res)
@@ -314,8 +362,8 @@ setMethod("show",
 #' @export
 get.DatasetDetail <- function(accession, database) {
   datasetDetail <- tryCatch({
-    json.datsetDetail <- fromJSON(file = paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method = "C")
-    return (from.json.DatasetDetail(json.datsetDetail))
+    json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), simplify = FALSE);
+    return (from.json.DatasetDetail(json.datasetDetail));
   }, error = function(err) {
      print(paste("MY_ERROR:  ",err))
      return(NULL)
@@ -336,7 +384,7 @@ get.DatasetDetail <- function(accession, database) {
 #' @export
 
 search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount = 20){
-    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount))
+    json.datasetSummary <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount), simplify = FALSE)
     datasetResults <- from.json.DatasetResults(json.datasetSummary)
     return(datasetResults)
 }
