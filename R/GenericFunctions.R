@@ -24,7 +24,3 @@ list.to.data.frame <- function(list.of.objects) {
   df
 }
 
-if (!isGeneric("as.data.frame")) {
-  setGeneric("as.data.frame", function(object, ...) standardGeneric("as.data.frame"))
-}
-

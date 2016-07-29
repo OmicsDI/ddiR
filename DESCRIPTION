@@ -7,11 +7,9 @@ Authors@R: c(person("Yasset", "Perez-Riverol", role=c("aut", "cre"),email="ypere
 Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <yperez@ebi.ac.uk>
 Depends:
-    R (>= 3.0.0),
-    methods,
-    RJSONIO
+    R (>= 3.0.0)
 Imports:
-    RJSONIO
+    RJSONIO (>= 1.3-0)
 Suggests:
     testthat,
     knitr

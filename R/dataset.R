@@ -68,18 +68,17 @@ setMethod("database", "DatasetDetail", function(object) object@database)
 #' @param unexpected.escape changed handling of unexpected escaped characters. Handling value should be one of "error", "skip", or "keep"; on unexpected characters issue an error, skip the character, or keep the character
 #' @return The DatasetResult instance
 #' @author Yasset Perez-Riverol
-#' @details TODO
-#' @importFrom rjson fromJSON
+#' @details TOD
 #' @export
 from.json.DataSetResult <- function(json.object) {
-    localOrganisms <- c(MISSING_VALUE)
+    localOrganisms <- list(MISSING_VALUE)
     if(!((is.null(json.object$organisms) || (length(json.object$organisms)==0)))){
         localOrganisms <- lapply(json.object$organisms,function (x) {from.json.Organism(x)})
     }
     res <- new("DatasetResult",
                title = json.object$title,
                dataset.id = json.object$id,
-               # database = json.object$source,
+               database = json.object$source,
                description = json.object$description,
                publication.date = json.object$publicationDate,
                keywords = ifelse(is.null(json.object$keywords)||(length(json.object$keywords)==0),
@@ -105,24 +104,6 @@ from.json.Organism <- function(json.object){
                     )
         return(res)
 }
-
-#' from.json.Organism
-#'
-#' This function converts an Organism json object to Organism
-#'
-#' @param json.object
-#' @return Data frame
-#' @export
-#'  
-setMethod("as.data.frame", "Organism",
-          function(object, row.names=NULL, optional=FALSE, ...){
-                  df <- data.frame(accession = character(), name = character())
-                  colnames(df) <- c("accession", "name")
-                  df <- rbind(df, c(object@accession, object@name))
-                  df 
-          }
-        )
-
 
 #' from.json.Protocol This function converts a json Protocol object to a Protocol object
 #'
@@ -188,7 +169,7 @@ from.json.DatasetDetail <- function(json.object){
     
     localExperimentType <- list(MISSING_VALUE)
     if(!(is.null(json.object$experimentType))){
-      localExperimentType <- object$experimentType
+      localExperimentType <- json.object$experimentType
     }
     
     localInstruments <- list(MISSING_VALUE)
@@ -358,7 +339,6 @@ setMethod("show",
 #' @return DatasetDetail
 #' @author Yasset Perez-Riverol
 #' @details TODO
-#' @importFrom rjson fromJSON
 #' @export
 get.DatasetDetail <- function(accession, database) {
   datasetDetail <- tryCatch({
@@ -380,7 +360,6 @@ get.DatasetDetail <- function(accession, database) {
 #' @param size how many elements to read
 #' @param faceCount the information of all the facets for the search
 #' @return DatasetResults
-#' @importFrom rjson fromJSON
 #' @export
 
 search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount = 20){
