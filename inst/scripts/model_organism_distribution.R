@@ -58,7 +58,7 @@ for(datIndex in 1:length(datasetList)){
         currentTaxonomy <- currentDataset@organisms[[taxonomyId]]
         if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && currentTaxonomy@accession != "9606" && (nrow(modelOrganismFrame[grep(as.character(currentTaxonomy@accession),modelOrganismFrame['childtaxa_id']),]) > 0)){
           for(omicsIndex in 1: length(currentDataset@omicsType)){
-            
+            print(currentDataset@omicsType[[omicsIndex]])
             resultDatasetFrame[nrow(resultDatasetFrame)+1,] <- c(currentDataset@dataset.id,
                                     currentDataset@database,
                                     currentDataset@omicsType[[omicsIndex]],
@@ -101,6 +101,8 @@ for(datIndex in 1:length(datasetList)){
     print(currentDataset@dataset.id)
   }
 }
+
+
 
 #Plot of database by Model Organism
 

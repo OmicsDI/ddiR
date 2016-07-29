@@ -22,7 +22,7 @@ The DatasetResult instance
 Returns a DatasetResult instance from a JSON string representation
 }
 \details{
-TODO
+TOD
 }
 \author{
 Yasset Perez-Riverol

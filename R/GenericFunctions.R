@@ -18,6 +18,9 @@ dataset.to.dataframe <- function(object, row.names=NULL, optional=FALSE, ...){
 #' @export
 #' 
 list.to.data.frame <- function(list.of.objects) {
-    do.call(rbind.data.frame, lapply(list.of.objects, as.data.frame))
+  for(index in 1: length(list.of.objects)){
+    df <- rbind(df, as.data.frame(list.of.objects[[index]]))
+  }
+  df
 }
 

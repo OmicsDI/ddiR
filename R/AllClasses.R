@@ -2,8 +2,6 @@ MISSING_VALUE <- "Not available"
 
 #' DatasetSummary, This class contains the information of one particuar dataset in OmicsDI
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DatasetSummary
 #'
@@ -50,8 +48,6 @@ setClass("DatasetSummary",
 
 #' Organism return an organism entity including its name and accession
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Organism
 
@@ -76,8 +72,6 @@ setClass("Organism",
 
 #'FacetValue provides the information about an specific Facet in the API
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass FacetValue
 #'
@@ -108,8 +102,6 @@ setClass("FacetValue",
 
 #' DatasetResult, provides a list of datasets for an specific query
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DatasetResult
 #'
@@ -129,8 +121,6 @@ setClass("DatasetResult",
 
 #'Facet provides the information about an specific Facet in the API
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Facet
 #'
@@ -150,8 +140,6 @@ setClass("Facet",
 
 #' DatasetDetail provides the information about an specific Facet in the API
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DatasetDetail
 #'
@@ -162,17 +150,17 @@ setClass("DatasetDetail",
              description  = "character",
              database     = "character",
              protocols     = "vector",
-             keywords     = "vector",
-             tissues      = "vector",
-             diseases     = "vector",
+             keywords     = "list",
+             tissues      = "list",
+             diseases     = "list",
              full.dataset.link  = "character",
-             instruments  = "vector",
-             experiment.type = "vector",
+             instruments  = "list",
+             experiment.type = "list",
              publication.date = "character",
-             publication.ids  = "vector",
+             publication.ids  = "list",
              organisms        = "vector",
              lab.members      = "vector",
-             omicsType        = "vector",
+             omicsType        = "list",
              similars         = "vector"
              ),
          prototype = list(
@@ -211,8 +199,6 @@ setClass("DatasetDetail",
 
 #' Protocol retirve the information of a Protocol used in the experiment
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Protocol
 #'
@@ -241,8 +227,6 @@ setClass("Protocol",
 )
 #' LabMember retrieve the information of a lab member including affilation, name, etc
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass LabMember
 
@@ -263,8 +247,6 @@ setClass("LabMember",
 
 #' StatRecord, This class contains the information of statistics records
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass StatRecord
 
@@ -301,8 +283,6 @@ setClass("StatRecord",
 
 #' DictWord, This class contains the information of a list of Dictionary Words
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DictWord
 #'
@@ -318,8 +298,6 @@ setClass("DictWord",
 
 #' Item, This class contains the information of an Item in the Dictonary
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Item
 #'
@@ -341,8 +319,6 @@ setClass("Item",
 
 #' Term, This class contains the information of a Term
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Term
 
@@ -360,8 +336,6 @@ setClass("Term",
 
 #' PiublicationResult, This class contains a list of publication for specific Query
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass PublicationResult
 
@@ -378,8 +352,6 @@ setClass("PublicationResult",
 
 #' PublicationDetail, This class contains a Publication Record
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass PublicationDetail
 #'
