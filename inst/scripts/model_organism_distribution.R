@@ -112,44 +112,24 @@ resultDatasetFrameWithoutNULL <- resultDatasetFrameWithoutNULL[!duplicated(resul
 database <- as.vector(resultDatasetFrameWithoutNULL$Database)
 type <- as.vector(resultDatasetFrameWithoutNULL$`Model Organism`)
 omicsType <- as.vector(resultDatasetFrameWithoutNULL$omicsType)
+omicsType <- gsub("transcriptomics", "Transcriptomics", omicsType)
 
 to_plot <- data.frame(database=database,type=type, omicsType = omicsType)
 
 to_plot <- to_plot[to_plot$type != "NA", ]
-to_plot <- to_plot[to_plot$omicsType != "NA", ]
+to_plot <- to_plot[to_plot$omicsType != "Not available", ]
 
 
 modelPlot <- ggplot(aes(database, fill=type), data=to_plot) +
-  geom_bar(alpha=.5, position = "dodge")+ coord_flip()
+    geom_bar(alpha=.5, position = "dodge") +
+    coord_flip() +
+    scale_y_sqrt(breaks = c(10, 200, 1000, 2000, 5000, 10000, 15000, 20000, 30000)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    labs(title = "Number of Datasests by Omics Type and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Database") +
+    scale_fill_discrete(guide = guide_legend(NULL), labels = c("Human", "Model Organism", "Non Model Organism")) +
+    scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "MassIVE", "Metabolomics Workbench", "PeptideAtlas", "PRIDE"))
 
 modelPlot <- modelPlot + facet_grid(. ~omicsType)
 
-png(file = "inst/imgs/model-organism-plot.png", width = 800, height = 600)
-plot(modelPlot)
-dev.off()
-
-#Plot of omicsType by Model Organism
-
-omicsType <- as.vector(resultDatasetFrame$omicsType)
-omicsType <- gsub("transcriptomics", "Transcriptomics", omicsType)
-typeModel <- as.vector(resultDatasetFrame$`Model Organism`)
-
-omicsTypeToPlot <- data.frame(database=omicsType,type=typeModel)
-
-omicsTypeToPlot <- omicsTypeToPlot[omicsTypeToPlot$type != "NA", ]
-omicsTypeToPlot <- omicsTypeToPlot[omicsTypeToPlot$database != "Not available", ]
-
-
-omicsTypeModelPlot <- ggplot(aes(database, fill=type), data=omicsTypeToPlot) +
-  geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
-  scale_y_sqrt(breaks = c(100, 1000, 2000, 4000, 10000, 20000, 30000, 65000)) +
-  labs(title = "Number of Datasests by OmicsType and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Omics Type") +
-  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) +
-  scale_x_discrete(labels = c("Genomics", "Metabolomics", "Not Annotated", "Proteomics", "Transcriptomics")) +
-  theme(panel.background = element_blank())
-
-
-png(file = "inst/imgs/model-organism-omicsType-plot.png", width = 800, height = 600)
-plot(omicsTypeModelPlot)
-dev.off()
-
+ggsave(modelPlot, file = "inst/imgs/model-organism-plot.png", width=10, height=5)
