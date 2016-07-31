@@ -5,6 +5,7 @@
 #' @param row.names optional row namesnt
 #' @param optional optional
 #' @export
+#' 
 dataset.to.dataframe <- function(object, row.names=NULL, optional=FALSE, ...){
   value <- list.to.data.frame(object)
   return(value)
@@ -14,9 +15,12 @@ dataset.to.dataframe <- function(object, row.names=NULL, optional=FALSE, ...){
 #'
 #' @param list.of.objects The object list
 #' @return The objects list as a data frame
-#' @details TODO
 #' @export
+#' 
 list.to.data.frame <- function(list.of.objects) {
-    do.call(rbind.data.frame, lapply(list.of.objects, as.data.frame))
+  for(index in 1: length(list.of.objects)){
+    df <- rbind(df, as.data.frame(list.of.objects[[index]]))
+  }
+  df
 }
 

@@ -8,12 +8,13 @@ model_organism <- read.table(file="inst/data/model_organism.tsv", sep = "\t", he
 
 load(file="inst/data/datasets-list.RData")
 
-resultDatasetFrame <- data.frame(Idenfier  = character(),
-                                 Database  = character(),
-                                 omicsType = character(),
-                                 Taxonomy  = character(),
-                                 Organism  = character(),
-                                 Model     = character(),
+count <- length(datasetList) * 100
+resultDatasetFrame <- data.frame(Idenfier  = character(count),
+                                 Database  = character(count),
+                                 omicsType = character(count),
+                                 Taxonomy  = character(count),
+                                 Organism  = character(count),
+                                 Model     = character(count),
                                  stringsAsFactors=FALSE)
 colnames(resultDatasetFrame) <- c("Dataset Identifier", "Database", "omicsType", "Taxonomy", "Organism", "Model Organism")
 
@@ -40,74 +41,88 @@ for(orgIndex in 1:nrow(model_organism)){
   }
 }
 
-
-for(datIndex in 1:length(datasetList)){
-  currentDataset <- datasetList[[datIndex]]
-  if(!is.null(currentDataset)){
-    if(is.null(currentDataset@organisms) || currentDataset@organisms == "Not available"){
-      for(omicsIndex in 1: length(currentDataset@omicsType)){
-        resultDatasetFrame <- rbind(resultDatasetFrame, c(currentDataset@dataset.id,
-                                                            currentDataset@database,
-                                                            currentDataset@omicsType[[omicsIndex]],
-                                                            "NA",
-                                                            "NA",
-                                                            "NA"))
-      }
-    }else{
-      for(taxonomyId in 1:length(currentDataset@organisms)){
-        currentTaxonomy <- currentDataset@organisms[[taxonomyId]]
-        if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && (nrow(modelOrganismFrame[grep(as.character(currentTaxonomy@accession),modelOrganismFrame['childtaxa_id']),]) > 0)){
+count <- 0
+for(datIndex in 78258:length(datasetList)){
+    currentDataset <- datasetList[[datIndex]]
+    if(!is.null(currentDataset)){
+        if(is.null(currentDataset@organisms) || currentDataset@organisms == "Not available"){
+            for(omicsIndex in 1: length(currentDataset@omicsType)){
+                resultDatasetFrame[count + 1, ] <- c(currentDataset@dataset.id,
+                                                     currentDataset@database,
+                                                     currentDataset@omicsType[[omicsIndex]],
+                                                     "NA","NA", "NA")
+                count <- count + 1;
+            }
+        }else{
+            for(taxonomyId in 1:length(currentDataset@organisms)){
+                currentTaxonomy <- currentDataset@organisms[[taxonomyId]]
+        if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && currentTaxonomy@accession != "9606" && (nrow(modelOrganismFrame[grep(as.character(currentTaxonomy@accession),modelOrganismFrame['childtaxa_id']),]) > 0)){
           for(omicsIndex in 1: length(currentDataset@omicsType)){
-
-            resultDatasetFrame[nrow(resultDatasetFrame)+1,] <- c(currentDataset@dataset.id,
+            resultDatasetFrame[count + 1,] <- c(currentDataset@dataset.id,
                                     currentDataset@database,
                                     currentDataset@omicsType[[omicsIndex]],
                                     currentTaxonomy@accession,
                                     currentTaxonomy@name,
                                     "Model Organism");
+            count <- count + 1;
+          }
+        }else if(!is.null(currentTaxonomy) && !is.null(currentTaxonomy@accession) && currentTaxonomy@accession == "9606"){
+          for(omicsIndex in 1: length(currentDataset@omicsType)){
+            resultDatasetFrame[count+1,] <- c(currentDataset@dataset.id,
+                                                                 currentDataset@database,
+                                                                 currentDataset@omicsType[[omicsIndex]],
+                                                                 currentTaxonomy@accession,
+                                                                 currentTaxonomy@name,
+                                                                 "Human");
+            count <- count + 1;
           }
         }else if(is.null(currentTaxonomy) || is.null(currentTaxonomy@accession)){
           for(omicsIndex in 1: length(currentDataset@omicsType)){
 
-            resultDatasetFrame[nrow(resultDatasetFrame)+1,] <- c(currentDataset@dataset.id,
+            resultDatasetFrame[count+1,] <- c(currentDataset@dataset.id,
                                                                  currentDataset@database,
                                                                  currentDataset@omicsType[[omicsIndex]],
                                                                  "NA",
                                                                  currentTaxonomy@name,
                                                                  "NA");
+            count <- count + 1;
           }
         }else{
           for(omicsIndex in 1: length(currentDataset@omicsType)){
-            resultDatasetFrame[nrow(resultDatasetFrame)+1,] <- c(currentDataset@dataset.id,
-                                                                 currentDataset@database,
-                                                                 currentDataset@omicsType[[omicsIndex]],
-                                                                 currentTaxonomy@accession,
-                                                                 currentTaxonomy@name,
-                                                                 "Non Model Organism")
+            resultDatasetFrame[count + 1,] <- c(currentDataset@dataset.id,
+                                                currentDataset@database,
+                                                currentDataset@omicsType[[omicsIndex]],
+                                                currentTaxonomy@accession,
+                                                currentTaxonomy@name,
+                                                "Non Model Organism")
+            count <- count + 1;
           }
         }
     }
+        }
+        print(paste(datIndex, currentDataset@dataset.id, sep=" "))
     }
-    print(currentDataset@dataset.id)
-  }
 }
+
+resultDatasetFrameWithoutNULL<-resultDatasetFrame[1:count,]
+resultDatasetFrameWithoutNULL <- resultDatasetFrameWithoutNULL[!duplicated(resultDatasetFrameWithoutNULL), ]
 
 #Plot of database by Model Organism
 
-database <- as.vector(resultDatasetFrame$Database)
-type <- as.vector(resultDatasetFrame$`Model Organism`)
+database <- as.vector(resultDatasetFrameWithoutNULL$Database)
+type <- as.vector(resultDatasetFrameWithoutNULL$`Model Organism`)
+omicsType <- as.vector(resultDatasetFrameWithoutNULL$omicsType)
 
-to_plot <- data.frame(database=database,type=type)
+to_plot <- data.frame(database=database,type=type, omicsType = omicsType)
+
+to_plot <- to_plot[to_plot$type != "NA", ]
+to_plot <- to_plot[to_plot$omicsType != "NA", ]
 
 
 modelPlot <- ggplot(aes(database, fill=type), data=to_plot) +
-  geom_bar(alpha=.5, position = "dodge")+ coord_flip()  +
-  scale_y_sqrt(breaks = c(100, 1000, 2000, 4000, 10000, 20000, 30000, 65000)) +
-  labs(title = "Number of Datasests by Respoitory and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Repositories/Databases") +
-  scale_fill_discrete(guide = guide_legend(NULL), labels = c("Model Organism", "Not Annotated", "Non Model Organism")) +
-  scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "GPMDB", "MassIVE", "Metabolights", "MetabolomeExpress", "MetabolomicsWorkbench", "PeptideAtlas", "PRIDE")) +
-  theme(panel.background = element_blank())
+  geom_bar(alpha=.5, position = "dodge")+ coord_flip()
 
+modelPlot <- modelPlot + facet_grid(. ~omicsType)
 
 png(file = "inst/imgs/model-organism-plot.png", width = 800, height = 600)
 plot(modelPlot)
@@ -120,6 +135,9 @@ omicsType <- gsub("transcriptomics", "Transcriptomics", omicsType)
 typeModel <- as.vector(resultDatasetFrame$`Model Organism`)
 
 omicsTypeToPlot <- data.frame(database=omicsType,type=typeModel)
+
+omicsTypeToPlot <- omicsTypeToPlot[omicsTypeToPlot$type != "NA", ]
+omicsTypeToPlot <- omicsTypeToPlot[omicsTypeToPlot$database != "Not available", ]
 
 
 omicsTypeModelPlot <- ggplot(aes(database, fill=type), data=omicsTypeToPlot) +
