@@ -42,7 +42,7 @@ for(orgIndex in 1:nrow(model_organism)){
 }
 
 count <- 0
-for(datIndex in 78258:length(datasetList)){
+for(datIndex in 1:length(datasetList)){
     currentDataset <- datasetList[[datIndex]]
     if(!is.null(currentDataset)){
         if(is.null(currentDataset@organisms) || currentDataset@organisms == "Not available"){
@@ -126,10 +126,10 @@ modelPlot <- ggplot(aes(database, fill=type), data=to_plot) +
     scale_y_sqrt(breaks = c(10, 200, 1000, 2000, 5000, 10000, 15000, 20000, 30000)) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    labs(title = "Number of Datasests by Omics Type and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= "Database") +
+    labs(title = "Number of Datasests by Omics Type and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= NULL) +
     scale_fill_discrete(guide = guide_legend(NULL), labels = c("Human", "Model Organism", "Non Model Organism")) +
-    scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "MassIVE", "Metabolomics Workbench", "PeptideAtlas", "PRIDE"))
+    scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "MassIVE", "Metabolomics Workbench", "PeptideAtlas", "PRIDE")) + theme(legend.position = "bottom")
 
 modelPlot <- modelPlot + facet_grid(. ~omicsType)
 
-ggsave(modelPlot, file = "inst/imgs/model-organism-plot.png", width=10, height=5)
+ggsave(modelPlot, file = "inst/imgs/model-organism-plot.png", width=8, height=4)

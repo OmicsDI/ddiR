@@ -332,6 +332,48 @@ setMethod("show",
           }
 )
 
+#' from.json.BiologicalSimilars
+#'
+#' This function get information from DatasetResults
+#' @param similars json object
+#' @return Return the Biological Similars of a dataset
+#' @export
+#'
+from.json.BiologicalSimilars <- function(json.object){
+    res  <- new("Similar",
+                dataset.id  = json.object$id,
+                database    = json.object$source,
+                score       = json.object$score
+    )
+    return(res)
+}
+#' from.json.BiologicalSimilarsList
+#'
+#' This function get information from DatasetResults
+#' @param similars json object
+#' @param accession accesioon of the current dataset
+#' @param database Database
+#' @return BiologicalSimilars List
+#' @export
+#'
+from.json.BiologicalSimilarsList <- function(accession = accession, database = database, similars = json.datasetDetail){
+
+    localSimilars <- c(MISSING_VALUE)
+    if(!is.null(similars) || !(is.null(similars$datasets) || (length(similars$datasets) == 0))){
+        localSimilars <- lapply(similars$datasets,function(x){
+            from.json.BiologicalSimilars(x)
+        }
+        )
+    }
+
+    res  <- new("DatasetSimilars",
+                dataset.id  = accession,
+                database    = database,
+                similars    = localSimilars
+    )
+    return(res)
+}
+
 #' Returns a DatasetDetail from OmicsDI
 #'
 #' @param accession id in the original repository
@@ -366,5 +408,43 @@ search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount =
     json.datasetSummary <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount), simplify = FALSE)
     datasetResults <- from.json.DatasetResults(json.datasetSummary)
     return(datasetResults)
+}
+
+
+#' get.BiologicalSimilars
+#' Returns a Biological Molecules similarity for a Dataset
+#'
+#' @param accession id in the original repository
+#' @param database the original database where this dataset has been store
+#' @return List of similars
+#' @author Yasset Perez-Riverol
+#' @export
+get.BiologicalSimilars <- function(accession, database) {
+    datasetDetail <- tryCatch({
+        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/enrichment/getSimilarDatasetsByBiologicalData", "?accession=", accession, "&database=", database), simplify = FALSE);
+        return (from.json.BiologicalSimilarsList(accession = accession, database = database, similars = json.datasetDetail));
+    }, error = function(err) {
+        print(paste("MY_ERROR:  ",err))
+        return(NULL)
+    });
+}
+
+#' get.MetadataSimilars
+#' Returns a Biological Molecules similarity for a Dataset
+#'
+#' @param accession id in the original repository
+#' @param database the original database where this dataset has been store
+#' @return List of similars
+#' @author Yasset Perez-Riverol
+#' @export
+
+get.MetadataSimilars <- function(accession, database) {
+    datasetDetail <- tryCatch({
+        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/getSimilar", "?acc=", accession, "&database=", database), simplify = FALSE);
+        return (from.json.BiologicalSimilarsList(accession = accession, database = database, similars = json.datasetDetail));
+    }, error = function(err) {
+        print(paste("MY_ERROR:  ",err))
+        return(NULL)
+    });
 }
 

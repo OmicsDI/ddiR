@@ -1,5 +1,67 @@
 MISSING_VALUE <- "Not available"
 
+#' DatasetSimilars, This class contains the information of one particuar dataset in OmicsDI
+#'
+#' @export
+#' @exportClass DatasetSimilars
+#'
+setClass("DatasetSimilars",
+         slots = c(
+             dataset.id  = "character",
+             database  = "character",
+             similars  = "vector"
+             ),
+
+         prototype = list(
+             dataset.id = MISSING_VALUE,
+             database = MISSING_VALUE,
+             similars   = list(MISSING_VALUE)
+         ),
+
+         validity = function(object) {
+             # check assay.accession
+             if (!is.character(object@dataset.id) || nchar(object@dataset.id) == 0 || is.na(object@dataset.id))
+                 return("'dataset.id' must be a single valid string")
+
+             # check project.accession
+             if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
+                 return("'database' must be a single valid string")
+
+             return(TRUE)
+         }
+)
+
+#' Similar, This class contains the information of one particuar dataset in OmicsDI
+#'
+#' @export
+#' @exportClass Similar
+#'
+setClass("Similar",
+         slots = c(
+             dataset.id  = "character",
+             database  = "character",
+             score  = "character"
+         ),
+
+         prototype = list(
+             dataset.id = MISSING_VALUE,
+             database = MISSING_VALUE,
+             similars   = MISSING_VALUE
+         ),
+
+         validity = function(object) {
+             # check assay.accession
+             if (!is.character(object@dataset.id) || nchar(object@dataset.id) == 0 || is.na(object@dataset.id))
+                 return("'dataset.id' must be a single valid string")
+
+             # check project.accession
+             if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
+                 return("'database' must be a single valid string")
+
+             return(TRUE)
+         }
+)
+
 #' DatasetSummary, This class contains the information of one particuar dataset in OmicsDI
 #'
 #' @export
@@ -14,7 +76,7 @@ setClass("DatasetSummary",
       publication.date = "character",
       organisms = "vector",
       title   = "character",
-      visit.count = "numeric", 
+      visit.count = "numeric",
       omicsType   = "vector"),
 
   prototype = list(
