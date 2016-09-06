@@ -19,9 +19,8 @@ First, we need to install `devtools`:
 Then we just call  
 
     install_github("BD2K-DDI/ddiR")
-    library(prideR)
+    library(ddiR)
 
-<<<<<<< HEAD
 ### Examples  
 
 This exmaple shows how retrieve all the metadata similarity scores by using the R-package ddiR. 
@@ -47,114 +46,9 @@ for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
     }
 }
 sink()
-
 ```
-#### Omics Discovery Index  
-
-Get project `PXD000001` summary:  
-
-    get.ProjectSummary("PXD000001")
-
-Search for at most 20 projects by term `blood`. The results are returned as a `list` of `ProjectSummary` objects:  
-
-    search.list.ProjectSummary("blood",0,20)
-
-Get the list of results from it:  
-
-    project.list(search.list.ProjectSummary("blood",0,20))
-
-Get them as a `data.frame`:  
-
-    as.data.frame(search.list.ProjectSummary("blood",0,20))
-
-Get the first 50 Proteins for project `PXD000001` as a list of `ProteinDetail` objects:  
-
-    protein.list(list.ProteinDetailList("PXD000001", 0, 50))
-
-Or as a `data.frame`:  
-
-    as.data.frame(list.ProteinDetailList("PXD000001",0, 50))
-
-Plot some counts:  
-
-    plot(list.ProteinDetailList("PXD000001",0, 50))
-
-Get 5 PSMs for project `PXD000001` as a list of `PsmDetail` objects:  
-
-    get.list.PsmDetail("PXD000001", 5)
-
-There are also count methods for each of the PRIDE Archive entitites.  
-
-#### PRIDE Cluster  
-
-Get page 0 with a size of 20 clusters for peptide sequence *LSVDYGK*:  
-
-    search.ClusterSearchResults("LSVDYGK", 0, 20)
-
-As a data frame:  
-
-    as.data.frame(search.ClusterSearchResults("LSVDYGK", 0, 20))
-
-Plot results:
-
-    plot(search.ClusterSearchResults("LSVDYGK", 0, 20))
-
-### Future Works  
-
-Some things to be done, sooner than later:  
-
-- Check mandatory parameters  
-- Deal with `SpectrumDetail` entities when available  
-
-
-=======
-### Examples     
-
-Retrieve all the metadata similarity scores from OmicsDI:
-
-```R
-library(ddiR)
-datasets <- search.DatasetsSummary(query = "*:*")
-sink("outfile.txt")
-for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
-    datasets <- search.DatasetsSummary(query = "*:*", start = datasetCount, size = 100)
-    for(dataset in datasets@datasets){
-        DatasetDetail = get.DatasetDetail(accession = dataset@dataset.id, database = dataset@database)
-        Similar = get.MetadataSimilars(accession = dataset@dataset.id, database = dataset@database)
-        rank = 0
-        for(similarDataset in Similar@datasets){
-            print(paste(dataset@dataset.id, similarDataset@dataset.id, similarDataset@score, dataset@omics.type, rank))
-            rank = rank + 1
-        }
-    }
-}
-sink()
-```
-
-### Examples     
-
-```R
-library(ddiR)
-datasets <- search.DatasetsSummary(query = "*:*")
-sink("outfile.txt")
-for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
-    datasets <- search.DatasetsSummary(query = "*:*", start = datasetCount, size = 100)
-    for(dataset in datasets@datasets){
-        DatasetDetail = get.DatasetDetail(accession = dataset@dataset.id, database = dataset@database)
-        Similar = get.MetadataSimilars(accession = dataset@dataset.id, database = dataset@database)
-        rank = 0
-        for(similarDataset in Similar@datasets){
-            print(paste(dataset@dataset.id, similarDataset@dataset.id, similarDataset@score, dataset@omics.type, rank))
-            rank = rank + 1
-        }
-    }
-}
-sink()
-```
->>>>>>> yasset
-### About us   
-
 Find out about us in our GitHub profiles:  
+
 
 [Yasset Perez-Riverol](https://github.com/ypriverol)  
 [Ariana Barbera Betancourt](http://github.com/abb44)
