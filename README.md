@@ -19,7 +19,7 @@ First, we need to install `devtools`:
 Then we just call  
 
     install_github("BD2K-DDI/ddiR")
-    library(prideR)
+    library(ddiR)
 
 <<<<<<< HEAD
 ### Examples  
