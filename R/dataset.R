@@ -1,6 +1,4 @@
-ddi_url     <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws"
-ddi_url_dev <- "http://wwwdev.ebi.ac.uk/Tools/ddi/ws"
-
+ddi_url     <- "http://www.omicsdi.org/ws"
 MISSING_VALUE <- "Not available"
 
 setMethod("show",
@@ -70,18 +68,17 @@ setMethod("database", "DatasetDetail", function(object) object@database)
 #' @param unexpected.escape changed handling of unexpected escaped characters. Handling value should be one of "error", "skip", or "keep"; on unexpected characters issue an error, skip the character, or keep the character
 #' @return The DatasetResult instance
 #' @author Yasset Perez-Riverol
-#' @details TODO
-#' @importFrom rjson fromJSON
+#' @details TOD
 #' @export
 from.json.DataSetResult <- function(json.object) {
-    localOrganisms <- c(MISSING_VALUE)
+    localOrganisms <- list(MISSING_VALUE)
     if(!((is.null(json.object$organisms) || (length(json.object$organisms)==0)))){
         localOrganisms <- lapply(json.object$organisms,function (x) {from.json.Organism(x)})
     }
     res <- new("DatasetResult",
                title = json.object$title,
                dataset.id = json.object$id,
-               # database = json.object$source,
+               database = json.object$source,
                description = json.object$description,
                publication.date = json.object$publicationDate,
                keywords = ifelse(is.null(json.object$keywords)||(length(json.object$keywords)==0),
@@ -91,6 +88,7 @@ from.json.DataSetResult <- function(json.object) {
     )
     return (res)
 }
+
 
 #' from.json.Organism
 #'
@@ -141,6 +139,7 @@ from.json.LabMember <- function(json.object){
 #'@return DatasetDetail
 #'
 from.json.DatasetDetail <- function(json.object){
+
     localProtocols <- c(MISSING_VALUE)
     if(!(is.null(json.object$protocols) || (length(json.object$protocols) == 0))){
         localProtocols <- lapply(json.object$protocols,function(x){
@@ -163,6 +162,7 @@ from.json.DatasetDetail <- function(json.object){
         )
     }
 
+<<<<<<< HEAD
     fullLink <- c(MISSING_VALUE)
     if(!(is.null(json.object$full_dataset_link) || (length(json.object$full_dataset_link) == 0))){
         fullLink <- json.object$full_dataset_link
@@ -174,24 +174,67 @@ from.json.DatasetDetail <- function(json.object){
                dataset.id   = json.object$id,
                description  = json.object$description,
                database     = json.object$source,
+=======
+    localTissues <- list(MISSING_VALUE)
+    if(!(is.null(json.object$tissues) || (length(json.object$tissues) == 0))){
+      localTissues <- json.object$tissues
+    }
+
+    localExperimentType <- list(MISSING_VALUE)
+    if(!(is.null(json.object$experimentType))){
+      localExperimentType <- json.object$experimentType
+    }
+
+    localInstruments <- list(MISSING_VALUE)
+    if (!(is.null(json.object$instruments) || (length(json.object$instruments) == 0))){
+      localInstruments <- json.object$instruments
+    }
+
+    localDiseases  <- list(MISSING_VALUE)
+    if( !(is.null(json.object$diseases) || (length(json.object$diseases) == 0))){
+      localDiseases <- json.object$diseases;
+    }
+
+    localKeywords <- list(MISSING_VALUE)
+    if(!(is.null(json.object$keywords) || (length(json.object$keywords) == 0))){
+      localKeywords <- json.object$keywords
+    }
+
+    localOmicsType <- list(MISSING_VALUE)
+
+    if( !(is.null(json.object$omics_type) || (length(json.object$omics_type) == 0))){
+      localOmicsType <- json.object$omics_type;
+    }
+
+    localPublicationIDs = list(MISSING_VALUE)
+    if(!(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0))){
+      localPublicationIDs <- json.object$publicationIds;
+    }
+
+    res <- new("DatasetDetail",
+               name            = json.object$name,
+               dataset.id      = json.object$id,
+               description     = json.object$description,
+               database        = json.object$source,
+               full.dataset.link  = ifelse(is.null(json.object$full_dataset_link),MISSING_VALUE,json.object$full_dataset_link),
+>>>>>>> yasset
                publication.date   = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0),
                                            c(MISSING_VALUE),json.object$publicationDate),
-               protocols    = localProtocols,
-               keywords        = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
-                                        c(MISSING_VALUE),json.object$keywords),
-               tissues         = ifelse(is.null(json.object$tissues) || (length(json.object$tissues) == 0),
-                                        c(MISSING_VALUE),json.object$tissues),
-               diseases        = ifelse(is.null(json.object$diseases) || (length(json.object$diseases) == 0),
-                                        c(MISSING_VALUE),json.object$diseases),
-               instruments     = ifelse(is.null(json.object$instruments) || (length(json.object$instruments) == 0),
-                                        c(MISSING_VALUE),json.object$instruments),
-               experiment.type = ifelse(is.null(json.object$experimentType) || (length(json.object$experimentType) == 0),
-                                        c(MISSING_VALUE),json.object$experimentType),
-               publication.ids = ifelse(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0),
-                                        c(MISSING_VALUE),json.object$publicationIds),
+               protocols       = localProtocols,
+               keywords        = localKeywords,
+               tissues         = localTissues,
+               diseases        = localDiseases,
+               instruments     = localInstruments,
+               experiment.type = localExperimentType,
+               publication.ids = localPublicationIDs,
                organisms       = localOrganisms,
+<<<<<<< HEAD
                lab.members     = localLabMembers,
                full.dataset.link = fullLink
+=======
+               omicsType       = localOmicsType,
+               lab.members     = localLabMembers
+>>>>>>> yasset
     )
     return(res)
 }
@@ -311,6 +354,48 @@ setMethod("show",
           }
 )
 
+#' from.json.BiologicalSimilars
+#'
+#' This function get information from DatasetResults
+#' @param similars json object
+#' @return Return the Biological Similars of a dataset
+#' @export
+#'
+from.json.BiologicalSimilars <- function(json.object){
+    res  <- new("Similar",
+                dataset.id  = json.object$id,
+                database    = json.object$source,
+                score       = json.object$score
+    )
+    return(res)
+}
+#' from.json.BiologicalSimilarsList
+#'
+#' This function get information from DatasetResults
+#' @param similars json object
+#' @param accession accesioon of the current dataset
+#' @param database Database
+#' @return BiologicalSimilars List
+#' @export
+#'
+from.json.BiologicalSimilarsList <- function(accession = accession, database = database, similars = json.datasetDetail){
+
+    localSimilars <- c(MISSING_VALUE)
+    if(!is.null(similars) || !(is.null(similars$datasets) || (length(similars$datasets) == 0))){
+        localSimilars <- lapply(similars$datasets,function(x){
+            from.json.BiologicalSimilars(x)
+        }
+        )
+    }
+
+    res  <- new("DatasetSimilars",
+                dataset.id  = accession,
+                database    = database,
+                similars    = localSimilars
+    )
+    return(res)
+}
+
 #' Returns a DatasetDetail from OmicsDI
 #'
 #' @param accession id in the original repository
@@ -318,12 +403,15 @@ setMethod("show",
 #' @return DatasetDetail
 #' @author Yasset Perez-Riverol
 #' @details TODO
-#' @importFrom rjson fromJSON
 #' @export
 get.DatasetDetail <- function(accession, database) {
-    json.datsetDetail <- fromJSON(file = paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), method = "C")
-    datasetDetail <- from.json.DatasetDetail(json.datsetDetail)
-    return(datasetDetail)
+  datasetDetail <- tryCatch({
+    json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), simplify = FALSE);
+    return (from.json.DatasetDetail(json.datasetDetail));
+  }, error = function(err) {
+     print(paste("MY_ERROR:  ",err))
+     return(NULL)
+  });
 }
 
 #' search.DatasetsSummary
@@ -336,16 +424,16 @@ get.DatasetDetail <- function(accession, database) {
 #' @param size how many elements to read
 #' @param faceCount the information of all the facets for the search
 #' @return DatasetResults
-#' @importFrom rjson fromJSON
 #' @export
 
 search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount = 20){
-    json.datasetSummary <- fromJSON(file = paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount))
+    json.datasetSummary <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount), simplify = FALSE)
     datasetResults <- from.json.DatasetResults(json.datasetSummary)
     return(datasetResults)
 }
 
 
+<<<<<<< HEAD
 #' get.MetadataSimilars
 #'
 #' Dataset Similars by Metadata
@@ -359,5 +447,42 @@ get.MetadataSimilars <- function(database = "", accession = ""){
     json.dasetSimilars <- fromJSON(file = paste0(ddi_url, "/dataset/getSimilar", "?acc=", accession, "&database=", database))
     datasetResults <- from.json.DatasetResults(json.dasetSimilars)
     return(datasetResults)
+=======
+#' get.BiologicalSimilars
+#' Returns a Biological Molecules similarity for a Dataset
+#'
+#' @param accession id in the original repository
+#' @param database the original database where this dataset has been store
+#' @return List of similars
+#' @author Yasset Perez-Riverol
+#' @export
+get.BiologicalSimilars <- function(accession, database) {
+    datasetDetail <- tryCatch({
+        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/enrichment/getSimilarDatasetsByBiologicalData", "?accession=", accession, "&database=", database), simplify = FALSE);
+        return (from.json.BiologicalSimilarsList(accession = accession, database = database, similars = json.datasetDetail));
+    }, error = function(err) {
+        print(paste("MY_ERROR:  ",err))
+        return(NULL)
+    });
+}
+
+#' get.MetadataSimilars
+#' Returns a Biological Molecules similarity for a Dataset
+#'
+#' @param accession id in the original repository
+#' @param database the original database where this dataset has been store
+#' @return List of similars
+#' @author Yasset Perez-Riverol
+#' @export
+
+get.MetadataSimilars <- function(accession, database) {
+    datasetDetail <- tryCatch({
+        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/getSimilar", "?acc=", accession, "&database=", database), simplify = FALSE);
+        return (from.json.BiologicalSimilarsList(accession = accession, database = database, similars = json.datasetDetail));
+    }, error = function(err) {
+        print(paste("MY_ERROR:  ",err))
+        return(NULL)
+    });
+>>>>>>> yasset
 }
 

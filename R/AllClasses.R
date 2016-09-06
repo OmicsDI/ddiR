@@ -1,9 +1,69 @@
 MISSING_VALUE <- "Not available"
 
+#' DatasetSimilars, This class contains the information of one particuar dataset in OmicsDI
+#'
+#' @export
+#' @exportClass DatasetSimilars
+#'
+setClass("DatasetSimilars",
+         slots = c(
+             dataset.id  = "character",
+             database  = "character",
+             similars  = "vector"
+             ),
+
+         prototype = list(
+             dataset.id = MISSING_VALUE,
+             database = MISSING_VALUE,
+             similars   = list(MISSING_VALUE)
+         ),
+
+         validity = function(object) {
+             # check assay.accession
+             if (!is.character(object@dataset.id) || nchar(object@dataset.id) == 0 || is.na(object@dataset.id))
+                 return("'dataset.id' must be a single valid string")
+
+             # check project.accession
+             if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
+                 return("'database' must be a single valid string")
+
+             return(TRUE)
+         }
+)
+
+#' Similar, This class contains the information of one particuar dataset in OmicsDI
+#'
+#' @export
+#' @exportClass Similar
+#'
+setClass("Similar",
+         slots = c(
+             dataset.id  = "character",
+             database  = "character",
+             score  = "character"
+         ),
+
+         prototype = list(
+             dataset.id = MISSING_VALUE,
+             database = MISSING_VALUE,
+             similars   = MISSING_VALUE
+         ),
+
+         validity = function(object) {
+             # check assay.accession
+             if (!is.character(object@dataset.id) || nchar(object@dataset.id) == 0 || is.na(object@dataset.id))
+                 return("'dataset.id' must be a single valid string")
+
+             # check project.accession
+             if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
+                 return("'database' must be a single valid string")
+
+             return(TRUE)
+         }
+)
+
 #' DatasetSummary, This class contains the information of one particuar dataset in OmicsDI
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DatasetSummary
 #'
@@ -17,8 +77,12 @@ setClass("DatasetSummary",
       organisms = "vector",
       title   = "character",
       visit.count = "numeric",
+<<<<<<< HEAD
       score = "character",
       omics.type = "character"),
+=======
+      omicsType   = "vector"),
+>>>>>>> yasset
 
   prototype = list(
     dataset.id = MISSING_VALUE,
@@ -29,8 +93,12 @@ setClass("DatasetSummary",
     title = MISSING_VALUE,
     organisms = MISSING_VALUE,
     visit.count = 0,
+<<<<<<< HEAD
     score = MISSING_VALUE,
     omics.type = MISSING_VALUE
+=======
+    omicsType   = MISSING_VALUE
+>>>>>>> yasset
   ),
 
   validity = function(object) {
@@ -52,8 +120,6 @@ setClass("DatasetSummary",
 
 #' Organism return an organism entity including its name and accession
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Organism
 
@@ -78,8 +144,6 @@ setClass("Organism",
 
 #'FacetValue provides the information about an specific Facet in the API
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass FacetValue
 #'
@@ -110,8 +174,6 @@ setClass("FacetValue",
 
 #' DatasetResult, provides a list of datasets for an specific query
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DatasetResult
 #'
@@ -131,8 +193,6 @@ setClass("DatasetResult",
 
 #'Facet provides the information about an specific Facet in the API
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Facet
 #'
@@ -152,8 +212,6 @@ setClass("Facet",
 
 #' DatasetDetail provides the information about an specific Facet in the API
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DatasetDetail
 #'
@@ -164,16 +222,18 @@ setClass("DatasetDetail",
              description  = "character",
              database     = "character",
              protocols     = "vector",
-             keywords     = "vector",
-             tissues      = "vector",
-             diseases     = "vector",
+             keywords     = "list",
+             tissues      = "list",
+             diseases     = "list",
              full.dataset.link  = "character",
-             instruments  = "vector",
-             experiment.type = "vector",
+             instruments  = "list",
+             experiment.type = "list",
              publication.date = "character",
-             publication.ids  = "vector",
+             publication.ids  = "list",
              organisms        = "vector",
-             lab.members      = "vector"
+             lab.members      = "vector",
+             omicsType        = "list",
+             similars         = "vector"
              ),
          prototype = list(
              name = MISSING_VALUE,
@@ -190,7 +250,9 @@ setClass("DatasetDetail",
              publication.date = MISSING_VALUE,
              publication.ids  = list(MISSING_VALUE),
              organisms        = list(MISSING_VALUE),
-             lab.members      = list(MISSING_VALUE)
+             lab.members      = list(MISSING_VALUE),
+             omicsType        = list(MISSING_VALUE),
+             similars         = list(MISSING_VALUE)
              ),
          validity = function(object){
              # name
@@ -209,8 +271,6 @@ setClass("DatasetDetail",
 
 #' Protocol retirve the information of a Protocol used in the experiment
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Protocol
 #'
@@ -239,8 +299,6 @@ setClass("Protocol",
 )
 #' LabMember retrieve the information of a lab member including affilation, name, etc
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass LabMember
 
@@ -261,8 +319,6 @@ setClass("LabMember",
 
 #' StatRecord, This class contains the information of statistics records
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass StatRecord
 
@@ -299,8 +355,6 @@ setClass("StatRecord",
 
 #' DictWord, This class contains the information of a list of Dictionary Words
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass DictWord
 #'
@@ -316,8 +370,6 @@ setClass("DictWord",
 
 #' Item, This class contains the information of an Item in the Dictonary
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Item
 #'
@@ -339,8 +391,6 @@ setClass("Item",
 
 #' Term, This class contains the information of a Term
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass Term
 
@@ -358,8 +408,6 @@ setClass("Term",
 
 #' PiublicationResult, This class contains a list of publication for specific Query
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass PublicationResult
 
@@ -376,8 +424,6 @@ setClass("PublicationResult",
 
 #' PublicationDetail, This class contains a Publication Record
 #'
-#' @importFrom rjson fromJSON
-#' @import methods
 #' @export
 #' @exportClass PublicationDetail
 #'
