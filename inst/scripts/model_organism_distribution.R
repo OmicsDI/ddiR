@@ -126,7 +126,7 @@ modelPlot <- ggplot(aes(database, fill=type), data=to_plot) +
     scale_y_sqrt(breaks = c(10, 200, 1000, 2000, 5000, 10000, 15000, 20000, 30000)) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    labs(title = "Number of Datasests by Omics Type and Model Organism Category", y = "Number of Datasests (sqrt scale)",  x= NULL) +
+    labs(title = "Number of datasets by omics type and model organism category", y = "Number of datasets (sqrt scale)",  x= NULL) +
     scale_fill_discrete(guide = guide_legend(NULL), labels = c("Human", "Model Organism", "Non Model Organism")) +
     scale_x_discrete(labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "MassIVE", "Metabolomics Workbench", "PeptideAtlas", "PRIDE")) + theme(legend.position = "bottom")
 

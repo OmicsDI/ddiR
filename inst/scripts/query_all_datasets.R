@@ -32,7 +32,7 @@ DF <- as.data.frame(unclass(d))
 
 plot <- ggplot(DF, aes(factor(DF$Database), fill = factor(DF$Database))) +
     geom_bar(alpha = .5) + scale_y_sqrt(breaks = c(100, 1000, 4000, 10000, 20000, 40000, 65000)) +
-    labs(title = "Number of Omics Datasests by Respoitory", x = "Repositories/Databases", y = "Number of Datasests (sqrt scale)") +
+    labs(title = "Number of Omics Datasests by Respoitory", x = "Repositories/Databases", y = "Number of Datasets (sqrt scale)") +
 	scale_fill_discrete(guide = guide_legend(NULL), labels = c("ArrayExpress", "ExpressionAtlas", "EGA", "GNPS", "GPMDB", "MassIVE", "Metabolights", "MetabolomeExpress", "MetabolomicsWorkbench", "PeptideAtlas", "PRIDE")) +
     theme(axis.ticks = element_blank(), axis.text.x = element_blank(), panel.background = element_blank())
 
