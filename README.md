@@ -23,7 +23,7 @@ Then we just call
 
 ### Examples
 
-- This example retrive all dataset details given accecion and database
+- This example retrives all dataset details given accession and database identifier
 
 ```R
 
@@ -85,11 +85,10 @@ for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
 }
 sink()
 ```
-Find out about us in our GitHub profiles:  
 
-# Manteiners
+# Maintainers
 
-[Yasset Perez-Riverol](https://github.com/ypriverol)  
-[Ariana Barbera Betancourt](http://github.com/abb44)
+[Yasset Perez-Riverol](https://github.com/ypriverol)   
+[Ariana Barbera Betancourt](http://github.com/abb44)   
 [Enrique Audain](https://github.com/enriquea)
 
