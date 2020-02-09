@@ -15,4 +15,3 @@ Return the Biological Similars of a dataset
 \description{
 This function get information from DatasetResults
 }
-

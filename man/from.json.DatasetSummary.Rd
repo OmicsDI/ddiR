@@ -15,4 +15,3 @@ DatasetSummary
 \description{
 This function converts a json object to a DatasetSummary
 }
-

@@ -15,4 +15,3 @@ Facet
 \description{
 This function convert a from.json.Facet to a Facet
 }
-

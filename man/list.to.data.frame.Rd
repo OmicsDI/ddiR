@@ -15,4 +15,3 @@ The objects list as a data frame
 \description{
 Returns a data frame from a list of objects
 }
-

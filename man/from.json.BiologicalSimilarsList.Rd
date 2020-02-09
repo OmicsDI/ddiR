@@ -4,8 +4,11 @@
 \alias{from.json.BiologicalSimilarsList}
 \title{from.json.BiologicalSimilarsList}
 \usage{
-from.json.BiologicalSimilarsList(accession = accession, database = database,
-  similars = json.datasetDetail)
+from.json.BiologicalSimilarsList(
+  accession = accession,
+  database = database,
+  similars = json.datasetDetail
+)
 }
 \arguments{
 \item{accession}{accesioon of the current dataset}
@@ -20,4 +23,3 @@ BiologicalSimilars List
 \description{
 This function get information from DatasetResults
 }
-

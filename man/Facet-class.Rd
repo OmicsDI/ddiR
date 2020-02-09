@@ -7,4 +7,3 @@
 \description{
 Facet provides the information about an specific Facet in the API
 }
-

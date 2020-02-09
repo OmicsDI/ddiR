@@ -7,4 +7,3 @@
 \description{
 DictWord, This class contains the information of a list of Dictionary Words
 }
-

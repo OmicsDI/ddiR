@@ -7,4 +7,3 @@
 \description{
 Organism return an organism entity including its name and accession
 }
-

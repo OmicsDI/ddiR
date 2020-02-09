@@ -15,4 +15,3 @@ LabMember
 \description{
 This function convert objects from json to LabMember
 }
-

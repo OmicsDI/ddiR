@@ -22,4 +22,3 @@ Returns a Biological Molecules similarity for a Dataset
 \author{
 Yasset Perez-Riverol
 }
-

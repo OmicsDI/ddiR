@@ -7,4 +7,3 @@
 \description{
 LabMember retrieve the information of a lab member including affilation, name, etc
 }
-

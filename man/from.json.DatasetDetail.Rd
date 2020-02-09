@@ -15,4 +15,3 @@ DatasetDetail
 \description{
 from.json.DatasetDetail This function converts a json DatasetDetail to a DatasetDetail
 }
-

@@ -7,4 +7,3 @@
 \description{
 PublicationDetail, This class contains a Publication Record
 }
-

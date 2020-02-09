@@ -23,4 +23,3 @@ DatasetResults
 \description{
 This function search for dataset summaries in the resource
 }
-

@@ -15,4 +15,3 @@ DatasetResult
 \description{
 This function get information from DatasetResults
 }
-

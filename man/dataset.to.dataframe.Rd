@@ -16,4 +16,3 @@ dataset.to.dataframe(object, row.names = NULL, optional = FALSE, ...)
 \description{
 Returns a data frame from a DatasetDetail list
 }
-
