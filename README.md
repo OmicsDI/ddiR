@@ -18,12 +18,51 @@ First, we need to install `devtools`:
    
 Then we just call  
 
-    install_github("BD2K-DDI/ddiR")
+    install_github("enriquea/ddiR")
     library(ddiR)
 
-### Examples  
+### Examples
 
-This exmaple shows how retrieve all the metadata similarity scores by using the R-package ddiR. 
+- This example retrive all dataset details given accecion and database
+
+```R
+
+library(ddiR)
+
+dataset = get.DatasetDetail(accession="PXD000210", database="pride")
+
+# print dataset full name
+get.dataset.name(dataset)
+
+# print dataset omics type
+get.dataset.omics(dataset)
+
+```
+
+- Access to all datasets for NOTCH1 gene
+
+```R
+
+library(ddiR)
+
+datasets <- search.DatasetsSummary(query = "NOTCH1")
+
+sink("outfile.txt")
+for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
+
+    datasets <- search.DatasetsSummary(query = "NOTCH1", start = datasetCount, size = 100)
+
+    for(dataset in datasets@datasets){
+             dataset = get.DatasetDetail(accession=dataset.id(dataset), database=database(dataset))
+             print(paste(dataset.id(dataset), get.dataset.omics(dataset), get.dataset.link(dataset)))
+            }
+    }
+}
+sink()
+
+```
+
+- This exmaple shows how retrieve all the metadata similarity scores by using the R-package ddiR. 
 
 ```R
 
@@ -36,7 +75,6 @@ for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
     datasets <- search.DatasetsSummary(query = "*:*", start = datasetCount, size = 100)
 
     for(dataset in datasets@datasets){
-            DatasetDetail = get.DatasetDetail(accession = dataset@dataset.id, database = dataset@database)
             Similar = get.MetadataSimilars(accession = dataset@dataset.id, database = dataset@database)
             rank = 0
             for(similarDataset in Similar@datasets){
@@ -49,6 +87,9 @@ sink()
 ```
 Find out about us in our GitHub profiles:  
 
+# Manteiners
 
 [Yasset Perez-Riverol](https://github.com/ypriverol)  
 [Ariana Barbera Betancourt](http://github.com/abb44)
+[Enrique Audain](https://github.com/enriquea)
+
