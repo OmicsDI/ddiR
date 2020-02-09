@@ -15,4 +15,3 @@ FacetValue a Final class with the object
 \description{
 This function converts a json FacetValue object to FaceTvalue
 }
-

@@ -7,4 +7,3 @@
 \description{
 FacetValue provides the information about an specific Facet in the API
 }
-

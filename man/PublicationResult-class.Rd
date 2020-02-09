@@ -7,4 +7,3 @@
 \description{
 PiublicationResult, This class contains a list of publication for specific Query
 }
-

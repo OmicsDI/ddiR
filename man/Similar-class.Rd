@@ -7,4 +7,3 @@
 \description{
 Similar, This class contains the information of one particuar dataset in OmicsDI
 }
-

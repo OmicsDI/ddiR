@@ -7,4 +7,3 @@
 \description{
 Term, This class contains the information of a Term
 }
-

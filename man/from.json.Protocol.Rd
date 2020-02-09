@@ -15,4 +15,3 @@ Protocol Object
 \description{
 from.json.Protocol This function converts a json Protocol object to a Protocol object
 }
-

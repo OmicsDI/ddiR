@@ -7,4 +7,3 @@
 \description{
 Item, This class contains the information of an Item in the Dictonary
 }
-

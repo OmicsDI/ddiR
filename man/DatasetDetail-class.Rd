@@ -7,4 +7,3 @@
 \description{
 DatasetDetail provides the information about an specific Facet in the API
 }
-

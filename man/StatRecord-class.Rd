@@ -7,4 +7,3 @@
 \description{
 StatRecord, This class contains the information of statistics records
 }
-

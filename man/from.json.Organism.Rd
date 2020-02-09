@@ -12,4 +12,3 @@ Organism
 \description{
 This function converts an Organism json object to Organism
 }
-

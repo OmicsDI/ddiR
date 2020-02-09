@@ -7,4 +7,3 @@
 \description{
 DatasetResult, provides a list of datasets for an specific query
 }
-
