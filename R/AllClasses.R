@@ -10,7 +10,7 @@ setClass("DatasetSimilars",
              dataset.id  = "character",
              database  = "character",
              similars  = "vector"
-             ),
+         ),
 
          prototype = list(
              dataset.id = MISSING_VALUE,
@@ -68,54 +68,47 @@ setClass("Similar",
 #' @exportClass DatasetSummary
 #'
 setClass("DatasetSummary",
-  slots = c(
-      dataset.id  = "character",
-      description = "character",
-      database  = "character",
-      keywords  = "vector",
-      publication.date = "character",
-      organisms = "vector",
-      title   = "character",
-      visit.count = "numeric",
-<<<<<<< HEAD
-      score = "character",
-      omics.type = "character"),
-=======
-      omicsType   = "vector"),
->>>>>>> yasset
+         slots = c(
+             dataset.id  = "character",
+             description = "character",
+             database  = "character",
+             keywords  = "vector",
+             publication.date = "character",
+             organisms = "vector",
+             title   = "character",
+             score = "character",
+             visit.count = "numeric",
+             omics.type = "vector",
+             omicsType = "vector"
+         ),
 
-  prototype = list(
-    dataset.id = MISSING_VALUE,
-    description = MISSING_VALUE,
-    database = MISSING_VALUE,
-    keywords = MISSING_VALUE,
-    publication.date = MISSING_VALUE,
-    title = MISSING_VALUE,
-    organisms = MISSING_VALUE,
-    visit.count = 0,
-<<<<<<< HEAD
-    score = MISSING_VALUE,
-    omics.type = MISSING_VALUE
-=======
-    omicsType   = MISSING_VALUE
->>>>>>> yasset
-  ),
+         prototype = list(dataset.id = MISSING_VALUE,
+                          description = MISSING_VALUE,
+                          database = MISSING_VALUE,
+                          keywords = MISSING_VALUE,
+                          publication.date = MISSING_VALUE,
+                          title = MISSING_VALUE,
+                          organisms = MISSING_VALUE,
+                          score = MISSING_VALUE,
+                          visit.count = 0,
+                          omics.type = MISSING_VALUE,
+                          omicsType = MISSING_VALUE),
 
-  validity = function(object) {
-    # check assay.accession
-    if (!is.character(object@dataset.id) || nchar(object@dataset.id) == 0 || is.na(object@dataset.id))
-      return("'dataset.id' must be a single valid string")
+         validity = function(object) {
+             # check assay.accession
+             if (!is.character(object@dataset.id) || nchar(object@dataset.id) == 0 || is.na(object@dataset.id))
+                 return("'dataset.id' must be a single valid string")
 
-    # check project.accession
-    if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
-      return("'database' must be a single valid string")
+             # check project.accession
+             if (!is.character(object@database) || nchar(object@database) == 0 || is.na(object@database))
+                 return("'database' must be a single valid string")
 
-    # check file.size
-    if (!is.numeric(object@visit.count) || object@visit.count < 0 || is.na(object@visit.count))
-      return("'visit.count' must be a none negative number")
+             # check file.size
+             if (!is.numeric(object@visit.count) || object@visit.count < 0 || is.na(object@visit.count))
+                 return("'visit.count' must be a non-negative integer")
 
-    return(TRUE)
-  }
+             return(TRUE)
+         }
 )
 
 #' Organism return an organism entity including its name and accession
@@ -151,7 +144,7 @@ setClass("FacetValue",
          slots = c(value = "character",
                    count = "character",
                    label = "character"
-          ),
+         ),
          prototype = list( value = MISSING_VALUE,
                            count = MISSING_VALUE,
                            label = MISSING_VALUE
@@ -234,7 +227,7 @@ setClass("DatasetDetail",
              lab.members      = "vector",
              omicsType        = "list",
              similars         = "vector"
-             ),
+         ),
          prototype = list(
              name = MISSING_VALUE,
              dataset.id  = MISSING_VALUE,
@@ -253,7 +246,7 @@ setClass("DatasetDetail",
              lab.members      = list(MISSING_VALUE),
              omicsType        = list(MISSING_VALUE),
              similars         = list(MISSING_VALUE)
-             ),
+         ),
          validity = function(object){
              # name
              if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
@@ -279,23 +272,23 @@ setClass("Protocol",
          slots = c(
              name = "character",
              description = "character"
-        ),
+         ),
 
-        prototype = list(
-            name = MISSING_VALUE,
-            description = MISSING_VALUE
-        ),
+         prototype = list(
+             name = MISSING_VALUE,
+             description = MISSING_VALUE
+         ),
 
-        validity = function(object){
+         validity = function(object){
 
-            # check project.accession
-            if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
-                return("'name' must be a single valid string")
+             # check project.accession
+             if (!is.character(object@name) || nchar(object@name) == 0 || is.na(object@name))
+                 return("'name' must be a single valid string")
 
-            # check project.accession
-            if (!is.character(object@description) || nchar(object@description) == 0 || is.na(object@description))
-                return("'description' must be a single valid string")
-        }
+             # check project.accession
+             if (!is.character(object@description) || nchar(object@description) == 0 || is.na(object@description))
+                 return("'description' must be a single valid string")
+         }
 )
 #' LabMember retrieve the information of a lab member including affilation, name, etc
 #'
@@ -308,7 +301,7 @@ setClass("LabMember",
              role = "character",
              affilation = "character",
              email = "character"
-             ),
+         ),
 
          prototype = list(
              name = MISSING_VALUE,
@@ -365,7 +358,7 @@ setClass("DictWord",
          prototype = list(
              total.count = 0,
              items = list()
-        )
+         )
 )
 
 #' Item, This class contains the information of an Item in the Dictonary
@@ -396,9 +389,9 @@ setClass("Item",
 
 setClass("Term",
          slots = c(
-              label = "character",
-              frequent = "character"
-              ),
+             label = "character",
+             frequent = "character"
+         ),
 
          prototype = list(
              label = MISSING_VALUE,
@@ -444,19 +437,19 @@ setClass("PublicationDetail",
          ),
 
          prototype = list(
-                 id         = MISSING_VALUE,
-                 date       = MISSING_VALUE,
-                 database   = MISSING_VALUE,
-                 keywords   = list(),
-                 affilation = list(),
-                 title      = MISSING_VALUE,
-                 authors    = list(),
-                 abstract   = list(),
-                 journal    = MISSING_VALUE,
-                 issue      = MISSING_VALUE,
-                 pagination = MISSING_VALUE,
-                 volume     = MISSING_VALUE
-             ),
+             id         = MISSING_VALUE,
+             date       = MISSING_VALUE,
+             database   = MISSING_VALUE,
+             keywords   = list(),
+             affilation = list(),
+             title      = MISSING_VALUE,
+             authors    = list(),
+             abstract   = list(),
+             journal    = MISSING_VALUE,
+             issue      = MISSING_VALUE,
+             pagination = MISSING_VALUE,
+             volume     = MISSING_VALUE
+         ),
 
          validity = function(object){
 
@@ -481,3 +474,4 @@ setClass("PublicationDetail",
                  return("'journal' must be a single valid string")
          }
 )
+

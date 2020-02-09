@@ -10,8 +10,8 @@ setMethod("show",
               cat("    Database: ", object@database, "\n", sep="")
               cat("    Description: ", object@description, "\n", sep="")
               cat("    Publication Date #: ", object@publication.date, "\n", sep="")
-              cat("    keywords # ", object@keywords, "\n", sep="")
-              cat("    organisms #: ", object@organisms, "\n", sep="")
+              cat("    keywords # ", paste0(object@keywords, collapse = '\t'), "\n", sep="")
+              cat("    organisms #: ", paste0(object@organisms, collapse = '\t'), "\n", sep="")
               cat("    Count Visit #: ", object@visit.count, "\n", sep="")
               invisible(NULL)
           }
@@ -98,11 +98,11 @@ from.json.DataSetResult <- function(json.object) {
 #' @return Organism
 #'
 from.json.Organism <- function(json.object){
-        res <- new ("Organism",
-                    name = ifelse(is.null(json.object$name) || (length(json.object$name) == 0),MISSING_VALUE, json.object$name),
-                    accession = ifelse(is.null(json.object$acc) || (length(json.object$acc) == 0),MISSING_VALUE, json.object$acc)
-                    )
-        return(res)
+    res <- new ("Organism",
+                name = ifelse(is.null(json.object$name) || (length(json.object$name) == 0),MISSING_VALUE, json.object$name),
+                accession = ifelse(is.null(json.object$acc) || (length(json.object$acc) == 0),MISSING_VALUE, json.object$acc)
+    )
+    return(res)
 }
 
 #' from.json.Protocol This function converts a json Protocol object to a Protocol object
@@ -162,64 +162,60 @@ from.json.DatasetDetail <- function(json.object){
         )
     }
 
-<<<<<<< HEAD
+
     fullLink <- c(MISSING_VALUE)
     if(!(is.null(json.object$full_dataset_link) || (length(json.object$full_dataset_link) == 0))){
         fullLink <- json.object$full_dataset_link
     }
 
-
-    res <- new("DatasetDetail",
-               name         = json.object$name,
-               dataset.id   = json.object$id,
-               description  = json.object$description,
-               database     = json.object$source,
-=======
     localTissues <- list(MISSING_VALUE)
     if(!(is.null(json.object$tissues) || (length(json.object$tissues) == 0))){
-      localTissues <- json.object$tissues
+        localTissues <- json.object$tissues
     }
 
     localExperimentType <- list(MISSING_VALUE)
     if(!(is.null(json.object$experimentType))){
-      localExperimentType <- json.object$experimentType
+        localExperimentType <- json.object$experimentType
     }
 
     localInstruments <- list(MISSING_VALUE)
     if (!(is.null(json.object$instruments) || (length(json.object$instruments) == 0))){
-      localInstruments <- json.object$instruments
+        localInstruments <- json.object$instruments
     }
 
     localDiseases  <- list(MISSING_VALUE)
     if( !(is.null(json.object$diseases) || (length(json.object$diseases) == 0))){
-      localDiseases <- json.object$diseases;
+        localDiseases <- json.object$diseases;
     }
 
     localKeywords <- list(MISSING_VALUE)
     if(!(is.null(json.object$keywords) || (length(json.object$keywords) == 0))){
-      localKeywords <- json.object$keywords
+        localKeywords <- json.object$keywords
     }
 
     localOmicsType <- list(MISSING_VALUE)
 
     if( !(is.null(json.object$omics_type) || (length(json.object$omics_type) == 0))){
-      localOmicsType <- json.object$omics_type;
+        localOmicsType <- json.object$omics_type;
     }
 
     localPublicationIDs = list(MISSING_VALUE)
     if(!(is.null(json.object$publicationIds) || (length(json.object$publicationIds) == 0))){
-      localPublicationIDs <- json.object$publicationIds;
+        localPublicationIDs <- json.object$publicationIds;
     }
+
+    localPublicationDate = c(MISSING_VALUE)
+    if(!(is.null(json.object$publicationDate) || length(json.object$publicationDate) == 0)){
+        localPublicationDate <- json.object$publicationDate
+    }
+
 
     res <- new("DatasetDetail",
                name            = json.object$name,
                dataset.id      = json.object$id,
                description     = json.object$description,
                database        = json.object$source,
-               full.dataset.link  = ifelse(is.null(json.object$full_dataset_link),MISSING_VALUE,json.object$full_dataset_link),
->>>>>>> yasset
-               publication.date   = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0),
-                                           c(MISSING_VALUE),json.object$publicationDate),
+               publication.date = localPublicationDate,
                protocols       = localProtocols,
                keywords        = localKeywords,
                tissues         = localTissues,
@@ -228,13 +224,9 @@ from.json.DatasetDetail <- function(json.object){
                experiment.type = localExperimentType,
                publication.ids = localPublicationIDs,
                organisms       = localOrganisms,
-<<<<<<< HEAD
-               lab.members     = localLabMembers,
-               full.dataset.link = fullLink
-=======
+               full.dataset.link = fullLink,
                omicsType       = localOmicsType,
                lab.members     = localLabMembers
->>>>>>> yasset
     )
     return(res)
 }
@@ -251,7 +243,7 @@ from.json.FacetValue <- function(json.object){
                value = json.object$value,
                count = json.object$count,
                label = json.object$label
-               )
+    )
     return(res)
 }
 
@@ -290,25 +282,25 @@ from.json.DatasetSummary <- function(json.object){
 
     localOrganisms <- c(MISSING_VALUE)
     if (!(is.null(json.object$organisms) || (length(json.object$organisms) == 0))){
-           localOrganisms <- lapply(json.object$organisms,function(x){from.json.Organism(x)})
+        localOrganisms <- lapply(json.object$organisms,function(x){from.json.Organism(x)})
     }
 
 
     res <- new("DatasetSummary",
-                dataset.id  = json.object$id,
-                description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),
-                                     MISSING_VALUE, json.object$description),
-                database    = json.object$source,
-                keywords    = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
-                                     c(MISSING_VALUE),json.object$keywords),
-                publication.date = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0), MISSING_VALUE, json.object$publicationDate),
-                organisms = localOrganisms,
-                title   = ifelse(is.null(json.object$title) || (length(json.object$title) == 0),
-                                 MISSING_VALUE, json.object$title),
-                visit.count = json.object$visitCount,
-                score = ifelse(is.null(json.object$score), MISSING_VALUE, json.object$score),
-                omics.type  = ifelse(is.null(json.object$omicsType), MISSING_VALUE, json.object$omicsType)
-               )
+               dataset.id  = json.object$id,
+               description = ifelse(is.null(json.object$description) || (length(json.object$description) == 0),
+                                    MISSING_VALUE, json.object$description),
+               database    = json.object$source,
+               keywords    = ifelse(is.null(json.object$keywords) || (length(json.object$keywords) == 0),
+                                    c(MISSING_VALUE),json.object$keywords),
+               publication.date = ifelse(is.null(json.object$publicationDate) || (length(json.object$publicationDate) == 0), MISSING_VALUE, json.object$publicationDate),
+               organisms = localOrganisms,
+               title   = ifelse(is.null(json.object$title) || (length(json.object$title) == 0),
+                                MISSING_VALUE, json.object$title),
+               visit.count = json.object$viewsCount,
+               score = ifelse(is.null(json.object$score), MISSING_VALUE, json.object$score),
+               omics.type  = ifelse(is.null(json.object$omicsType), MISSING_VALUE, json.object$omicsType)
+    )
     return(res)
 }
 
@@ -335,10 +327,10 @@ from.json.DatasetResults <- function(json.object){
     }
 
     res  <- new("DatasetResult",
-               count  = json.object$count,
-               facets = localFacets,
-               datasets = localDatasets
-               )
+                count  = json.object$count,
+                facets = localFacets,
+                datasets = localDatasets
+    )
     return(res)
 }
 
@@ -405,13 +397,13 @@ from.json.BiologicalSimilarsList <- function(accession = accession, database = d
 #' @details TODO
 #' @export
 get.DatasetDetail <- function(accession, database) {
-  datasetDetail <- tryCatch({
-    json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), simplify = FALSE);
-    return (from.json.DatasetDetail(json.datasetDetail));
-  }, error = function(err) {
-     print(paste("MY_ERROR:  ",err))
-     return(NULL)
-  });
+    datasetDetail <- tryCatch({
+        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), simplify = FALSE);
+        return (from.json.DatasetDetail(json.datasetDetail));
+    }, error = function(err) {
+        print(paste("MY_ERROR:  ",err))
+        return(NULL)
+    });
 }
 
 #' search.DatasetsSummary
@@ -428,12 +420,12 @@ get.DatasetDetail <- function(accession, database) {
 
 search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount = 20){
     json.datasetSummary <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/search", "?query=", query, "&start=", start, "&size=", size, "&faceCount=", faceCount), simplify = FALSE)
+    # print(json.datasetSummary)
     datasetResults <- from.json.DatasetResults(json.datasetSummary)
     return(datasetResults)
 }
 
 
-<<<<<<< HEAD
 #' get.MetadataSimilars
 #'
 #' Dataset Similars by Metadata
@@ -447,7 +439,8 @@ get.MetadataSimilars <- function(database = "", accession = ""){
     json.dasetSimilars <- fromJSON(file = paste0(ddi_url, "/dataset/getSimilar", "?acc=", accession, "&database=", database))
     datasetResults <- from.json.DatasetResults(json.dasetSimilars)
     return(datasetResults)
-=======
+}
+
 #' get.BiologicalSimilars
 #' Returns a Biological Molecules similarity for a Dataset
 #'
@@ -483,6 +476,4 @@ get.MetadataSimilars <- function(accession, database) {
         print(paste("MY_ERROR:  ",err))
         return(NULL)
     });
->>>>>>> yasset
 }
-
