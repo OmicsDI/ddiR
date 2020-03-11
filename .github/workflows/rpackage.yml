@@ -1,28 +1,35 @@
-# This is a basic workflow to help you get started with Actions
+name: CICD
 
-name: CI
+"on":
+  - push
+  - pull_request
 
-# Controls when the action will run. Triggers the workflow on push or pull request 
-# events but only for the master branch
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  
   build:
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        R: [ '3.5.3', '3.6.1' ]
-    name: R ${{ matrix.R }} sample
+    container:
+      image: rstudio/r-base:3.6-bionic
     steps:
-      - uses: actions/checkout@master
-      - name: Setup R
-        uses: actions/setup-R@v1
-        with:
-          r-version: ${{ matrix.R }}
-      - run: Rscript -e 'print("hello")'
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update && apt-get install -y --no-install-recommends \
+          libxml2-dev \
+          libssl-dev \
+          libcurl4-openssl-dev
+      - name: Install Package Dependencies
+        run: |-
+          Rscript -e "install.packages('remotes', repos = 'https://demo.rstudiopm.com/all/__linux__/bionic/latest')"
+          Rscript -e "remotes::install_deps(dependencies = TRUE, repos = 'https://demo.rstudiopm.com/all/__linux__/bionic/latest')"
+      - name: Check Package
+        run: Rscript -e "rcmdcheck::rcmdcheck(error_on = 'error', check_dir = 'check')"
+      - name: Document Package
+        run: |
+          Rscript -e "pkgdown::build_site(override = list(devel = FALSE, external = FALSE))"
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/master'
+        uses: maxheld83/ghpages@v0.2.0
+        env:
+          BUILD_DIR: docs
+          GH_PAT: ${{ secrets.GH_PAT }}
