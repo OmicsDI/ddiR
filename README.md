@@ -1,3 +1,5 @@
+[![Travis build status](https://travis-ci.org/enriquea/ddiR.svg?branch=master)](https://travis-ci.org/enriquea/ddiR)
+
 [ddiR](https://github.com/BD2K-DDI/ddiR)
 ======
 
