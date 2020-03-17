@@ -28,7 +28,7 @@ jobs:
         run: Rscript -e 'devtools::install_deps(dependencies = TRUE)'
       - name: PAckage Tests 
         run: |
-          Rscript -e "library(testthat); testthat::test_dir('tests/testthat')"
+          Rscript -e "devtools::test()"
    #   - name: Deploy to GitHub Pages
    #     if: github.ref == 'refs/heads/master'
    #     uses: maxheld83/ghpages@v0.2.0
