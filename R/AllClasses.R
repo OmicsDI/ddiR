@@ -40,7 +40,8 @@ setClass("Similar",
          slots = c(
              dataset.id  = "character",
              database  = "character",
-             score  = "character"
+             score  = "character",
+             similars = "vector"
          ),
 
          prototype = list(
@@ -299,7 +300,7 @@ setClass("LabMember",
          slots = c(
              name = "character",
              role = "character",
-             affilation = "character",
+             affiliation = "character",
              email = "character"
          ),
 
