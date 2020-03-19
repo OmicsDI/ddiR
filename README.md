@@ -45,8 +45,6 @@ get.dataset.omics(dataset)
 
 ```R
 
-library(ddiR)
-
 datasets <- search.DatasetsSummary(query = "NOTCH1")
 
 sink("outfile.txt")
@@ -64,11 +62,50 @@ sink()
 
 ```
 
+- Getting the dataset IDs and full link of 20 Genomics studies in Cancer
+
+```R
+
+datasets <- search.DatasetsSummary(query = "Cancer AND Genomics")
+
+for(dataset in datasets@datasets){
+    dataset = get.DatasetDetail(accession=dataset.id(dataset), database=database(dataset))
+    print(paste(dataset.id(dataset), get.dataset.link(dataset), sep = ' '))
+}
+
+```
+
+- Print the dataset IDs and short description of 20 Proteomics studies for tumor supressor p53
+
+```R
+
+datasets <- search.DatasetsSummary(query = "p53 AND Proteomics")
+
+for(dataset in datasets@datasets){
+    dataset = get.DatasetDetail(accession=dataset.id(dataset), database=database(dataset))
+    print(paste(dataset.id(dataset), get.dataset.name(dataset), sep = ' '))
+}
+
+```
+
+- Getting Proteomics studies in Heart tissue from PRIDE database
+
+```R
+
+datasets <- search.DatasetsSummary(query = "Heart")
+
+for(dataset in datasets@datasets){
+    dataset = get.DatasetDetail(accession=dataset.id(dataset), database=database(dataset))
+    if(database(dataset)=='pride')
+    print(paste(dataset.id(dataset), get.dataset.tissues(dataset), get.dataset.omics(dataset), sep = ' '))
+}
+
+```
+
 - This exmaple shows how retrieve all the metadata similarity scores by using the R-package ddiR. 
 
 ```R
 
-library(ddiR)
 datasets <- search.DatasetsSummary(query = "*:*")
 i  = 0
 sink("outfile.txt")
@@ -86,9 +123,10 @@ for(datasetCount in seq(from = 0, to = datasets@count, by = 100)){
     }
 }
 sink()
+
 ```
 
-# Maintainers
+### Maintainers
 
 [Yasset Perez-Riverol](https://github.com/ypriverol)   
 [Ariana Barbera Betancourt](http://github.com/abb44)   
