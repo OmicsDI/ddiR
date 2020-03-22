@@ -1,7 +1,7 @@
 Package: ddiR
 Type: Package
 Title: ddiR: The Omics Discovery Index R package
-Version: 0.99.0
+Version: 0.0.3
 Date: 2015-11-01
 Authors@R: c(person("Yasset", "Perez-Riverol", role=c("aut", "cre"),email="yperez@ebi.ac.uk"))
 Author: Yasset Perez-Riverol
