@@ -398,7 +398,7 @@ from.json.BiologicalSimilarsList <- function(accession = accession, database = d
 #' @export
 get.DatasetDetail <- function(accession, database) {
     datasetDetail <- tryCatch({
-        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/get", "?acc=", accession, "&database=", database), simplify = FALSE);
+        json.datasetDetail <- RJSONIO::fromJSON(paste0(ddi_url, "/dataset/get", "?accession=", accession, "&database=", database), simplify = FALSE);
         return (from.json.DatasetDetail(json.datasetDetail));
     }, error = function(err) {
         print(paste("MY_ERROR:  ",err))
