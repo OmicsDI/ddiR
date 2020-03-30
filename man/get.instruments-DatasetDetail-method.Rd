@@ -10,7 +10,7 @@
 \item{object}{a DatasetDetail}
 }
 \value{
-the instruments
+list of the instruments used in the study
 }
 \description{
 Returns the instruments used to generate the dataset

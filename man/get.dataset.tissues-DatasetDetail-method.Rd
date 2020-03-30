@@ -10,7 +10,7 @@
 \item{object}{a DatasetDetail}
 }
 \value{
-the tissue information
+list of the tissues information
 }
 \description{
 Returns tissues information described in the dataset

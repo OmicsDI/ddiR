@@ -10,7 +10,7 @@
 \item{object}{a DatasetDetail}
 }
 \value{
-the associated publication IDs
+list of associated publication IDs
 }
 \description{
 Returns the publications IDs associated to the dataset
