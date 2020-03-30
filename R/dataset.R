@@ -94,7 +94,7 @@ from.json.DataSetResult <- function(json.object) {
 #'
 #' This function converts an Organism json object to Organism
 #'
-#' @param json.object
+#' @param json.object input json object
 #' @return Organism
 #'
 from.json.Organism <- function(json.object){
@@ -430,8 +430,8 @@ search.DatasetsSummary <- function(query = "", start = 0, size = 20, faceCount =
 #'
 #' Dataset Similars by Metadata
 #'
-#' @param database
-#' @param accession
+#' @param database the database name
+#' @param accession the dataset accession
 #' @return DatasetResults
 #' @export
 #'
