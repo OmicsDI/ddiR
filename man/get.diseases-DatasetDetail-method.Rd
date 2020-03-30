@@ -10,7 +10,7 @@
 \item{object}{a DatasetDetail}
 }
 \value{
-the diseases under study
+list of the diseases under study
 }
 \description{
 Returns the diseases under study

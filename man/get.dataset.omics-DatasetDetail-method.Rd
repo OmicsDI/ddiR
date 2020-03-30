@@ -10,7 +10,7 @@
 \item{object}{a DatasetDetail}
 }
 \value{
-the omics
+list of omics type described in the study
 }
 \description{
 Returns the type of omics experiment (e.g. Proteomics, Genomics)

@@ -26,3 +26,19 @@ test_that("check match of 'NOTCH1' in the meta-data of all 10 dataset", {
     expect_true(all(match_query))
 })
 
+
+
+# Getting Proteomics studies in Heart tissue from PRIDE database
+datasets <- search.DatasetsSummary(query = "Heart")
+
+match_query = vector()
+
+for(dataset in datasets@datasets){
+    dataset = get.DatasetDetail(accession=dataset.id(dataset), database=database(dataset))
+    if(database(dataset)=='pride')
+        match_query[dataset.id(dataset)] <- get.dataset.tissues(dataset)
+}
+
+test_that("check that the query term 'Heart' match in all retrived dataset", {
+    expect_true(all(match_query == 'Heart'))
+})

@@ -6,6 +6,9 @@
 \usage{
 from.json.Organism(json.object)
 }
+\arguments{
+\item{json.object}{input json object}
+}
 \value{
 Organism
 }

@@ -31,11 +31,11 @@ setGeneric("get.dataset.tissues", function(x) standardGeneric("get.dataset.tissu
 #' Returns tissues information described in the dataset
 #'
 #' @param object a DatasetDetail
-#' @return the tissue information
+#' @return list of the tissues information
 #' @author Enrique Audain
 #' @export
 setMethod("get.dataset.tissues", "DatasetDetail", function(x) {
-    paste(as.character(x@tissues), collapse = ',')
+    unlist(lapply(x@tissues, function(x) x))
 })
 
 
@@ -45,11 +45,11 @@ setGeneric("get.dataset.omics", function(x) standardGeneric("get.dataset.omics")
 #' Returns the type of omics experiment (e.g. Proteomics, Genomics)
 #'
 #' @param object a DatasetDetail
-#' @return the omics
+#' @return list of omics type described in the study
 #' @author Enrique Audain
 #' @export
 setMethod("get.dataset.omics", "DatasetDetail", function(x) {
-    paste(as.character(x@omicsType), collapse = ',')
+    unlist(lapply(x@omicsType, function(x) x))
 })
 
 
@@ -83,11 +83,11 @@ setGeneric("get.publication.ids", function(x) standardGeneric("get.publication.i
 #' Returns the publications IDs associated to the dataset
 #'
 #' @param object a DatasetDetail
-#' @return the associated publication IDs
+#' @return list of associated publication IDs
 #' @author Enrique Audain
 #' @export
 setMethod("get.publication.ids", "DatasetDetail", function(x) {
-    paste(as.character(x@publication.ids), collapse = ',')
+    unlist(lapply(x@publication.ids, function(x) x))
 })
 
 
@@ -97,11 +97,15 @@ setGeneric("get.organisms", function(x) standardGeneric("get.organisms"))
 #' Returns the organisms described in the dataset
 #'
 #' @param object a DatasetDetail
-#' @return the organisms
+#' @return Named list (accession:organism) of organisms described in the study
 #' @author Enrique Audain
 #' @export
 setMethod("get.organisms", "DatasetDetail", function(x) {
-    paste(as.character(x@organisms), collapse = ',')
+    v <- vector()
+    for(organism in x@organisms){
+        v[[organism@accession]] <- organism@name
+    }
+    return(v)
 })
 
 
@@ -111,11 +115,11 @@ setGeneric("get.instruments", function(x) standardGeneric("get.instruments"))
 #' Returns the instruments used to generate the dataset
 #'
 #' @param object a DatasetDetail
-#' @return the instruments
+#' @return list of the instruments used in the study
 #' @author Enrique Audain
 #' @export
 setMethod("get.instruments", "DatasetDetail", function(x) {
-    paste(as.character(x@instruments), collapse = ',')
+    unlist(lapply(x@instruments, function(x) x))
 })
 
 
@@ -125,10 +129,37 @@ setGeneric("get.diseases", function(x) standardGeneric("get.diseases"))
 #' Returns the diseases under study
 #'
 #' @param object a DatasetDetail
-#' @return the diseases under study
+#' @return list of the diseases under study
 #' @author Enrique Audain
 #' @export
 setMethod("get.diseases", "DatasetDetail", function(x) {
-    paste(as.character(x@diseases), collapse = ',')
+    unlist(lapply(x@diseases, function(x) x))
 })
 
+
+# set generic get.keywords
+setGeneric("get.keywords", function(x) standardGeneric("get.keywords"))
+
+#' Returns the keywords described in the study
+#'
+#' @param object a DatasetDetail
+#' @return list of study keywords
+#' @author Enrique Audain
+#' @export
+setMethod("get.keywords", "DatasetDetail", function(x) {
+    unlist(lapply(x@keywords, function(x) x))
+})
+
+
+# set generic get.experiments.type
+setGeneric("get.experiments.type", function(x) standardGeneric("get.experiments.type"))
+
+#' Returns the experiments type described in the study
+#'
+#' @param object a DatasetDetail
+#' @return list of experiments type
+#' @author Enrique Audain
+#' @export
+setMethod("get.experiments.type", "DatasetDetail", function(x) {
+    unlist(lapply(x@experiment.type, function(x) x))
+})

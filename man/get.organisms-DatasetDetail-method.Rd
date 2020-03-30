@@ -10,7 +10,7 @@
 \item{object}{a DatasetDetail}
 }
 \value{
-the organisms
+Named list (accession:organism) of organisms described in the study
 }
 \description{
 Returns the organisms described in the dataset
